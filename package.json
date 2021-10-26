@@ -1,0 +1,9 @@
+{
+  "name": "fontawsome-picker",
+  "version": "1.0.0",
+  "description": "Font Awsome picker - Vanilla icon picker",
+  "main": "index.js",
+  "repository": "https://github.com/AppoloDev/fontawsome-picker.git",
+  "author": "Simon <simon@appolo.fr>",
+  "license": "MIT"
+}
