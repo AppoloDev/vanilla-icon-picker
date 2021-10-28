@@ -6,16 +6,19 @@ const path = require("path");
 module.exports = {
     mode: 'development',
 
+    cache: false,
+
     entry: {
-        'dist/fontawsomepicker.min': path.resolve('./src/js/fontawsomepicker.js'),
-        'dist/css/fontawsomepicker.min': path.resolve('./src/scss/base.scss'),
+        'dist/icon-picker.min': path.resolve('./src/js/IconPicker.js'),
+        'dist/css/icon-picker.min': path.resolve('./src/scss/base.scss'),
     },
 
     output: {
         filename: '[name].js',
+        publicPath: '/',
         library: {
             type: 'umd',
-            name: 'FontawsomePicker',
+            name: 'IconPicker',
             export: 'default',
             umdNamedDefine: true
         }
@@ -23,8 +26,7 @@ module.exports = {
 
     devServer: {
         static: '.',
-        host: '0.0.0.0',
-        port: 3006
+        hot: false
     },
 
     module: {

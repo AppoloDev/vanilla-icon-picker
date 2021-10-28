@@ -7,12 +7,12 @@ const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 
 (async () => {
-    const banner = new webpack.BannerPlugin(`Pickr ${version} MIT | https://github.com/Simonwep/pickr`);
+    const banner = new webpack.BannerPlugin(`Icon Picker ${version} MIT | https://github.com/AppoloDev/icon-picker`);
 
     // CSS
     await webpack({
         entry: {
-            'fontawsomepicker': path.resolve('./src/scss/base.scss')},
+            'icon-picker': path.resolve('./src/scss/base.scss')},
 
         output: {
             path: path.resolve('./dist/css')
@@ -45,12 +45,12 @@ const TerserPlugin = require("terser-webpack-plugin");
         mode: 'production',
 
         entry: {
-            'fontawsomepicker.min': path.resolve('./src/js/fontawsomepicker.js')
+            'icon-picker.min': path.resolve('./src/js/IconPicker.js')
         },
 
         output: {
             path: path.resolve('./dist'),
-            library: 'FontawsomePicker',
+            library: 'IconPicker',
             libraryExport: 'default',
             libraryTarget: 'umd'
         },
@@ -58,7 +58,7 @@ const TerserPlugin = require("terser-webpack-plugin");
         plugins: [
             banner,
             new webpack.SourceMapDevToolPlugin({
-                filename: 'fontawsomepicker.min.map'
+                filename: 'icon-picker.min.map'
             })
         ],
 
