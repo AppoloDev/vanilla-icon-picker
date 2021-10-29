@@ -1,19 +1,27 @@
 {
   "name": "fontawsome-picker",
   "version": "0.0.1-alpha",
-  "description": "Font Awsome picker - Vanilla icon picker",
+  "description": "Icon picker - Vanilla JS icon picker",
   "keywords": [
     "ux",
     "Fontawsome",
     "icon",
     "icon-picker"
   ],
-  "main": "./dist/fontawsomepicker.js",
+  "main": "./dist/icon-picker.min.js",
   "author": "Simon <simon@appolo.fr>",
   "license": "MIT",
   "scripts": {
     "develop": "webpack serve --progress --mode=development --config=config/webpack.dev.js",
     "build": "node ./config/webpack.prod.js"
+  },
+  "homepage": "https://github.com/AppoloDev/icon-picker#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AppoloDev/icon-picker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AppoloDev/icon-picker/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
@@ -28,14 +36,6 @@
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0",
     "webpack-fix-style-only-entries": "^0.6.1"
-  },
-  "homepage": "https://github.com/AppoloDev/fontawsome-picker#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AppoloDev/fontawsome-picker.git"
-  },
-  "bugs": {
-    "url": "https://github.com/AppoloDev/fontawsome-picker/issues"
   },
   "dependencies": {
     "font-awesome-iconset": "^5.15.0"
