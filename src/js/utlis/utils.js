@@ -29,3 +29,36 @@ export function stringToHTML(str) {
     dom.innerHTML = str;
     return dom.firstElementChild;
 }
+
+/**
+ * Check if item is an object
+ * @param {Object} item
+ * @returns {boolean}
+ */
+export function isObject(item) {
+    return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+/**
+ *
+ * @param target
+ * @param source
+ * @returns {Object}
+ */
+export default function mergeDeep(target, source) {
+    let output = Object.assign({}, target);
+
+    if (isObject(target) && isObject(source)) {
+        Object.keys(source).forEach(key => {
+            if (isObject(source[key])) {
+                if (!(key in target))
+                    Object.assign(output, { [key]: source[key] });
+                else
+                    output[key] = mergeDeep(target[key], source[key]);
+            } else {
+                Object.assign(output, { [key]: source[key] });
+            }
+        });
+    }
+    return output;
+}
