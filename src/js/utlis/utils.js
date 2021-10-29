@@ -45,7 +45,7 @@ export function isObject(item) {
  * @param source
  * @returns {Object}
  */
-export default function mergeDeep(target, source) {
+export function mergeDeep(target, source) {
     let output = Object.assign({}, target);
 
     if (isObject(target) && isObject(source)) {
