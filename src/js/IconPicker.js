@@ -1,4 +1,4 @@
-import {resolveElement} from "./utlis/utils";
+import * as _ from "./utlis/utils";
 import template from "./template";
 
 import ICON_SET from 'font-awesome-iconset';
@@ -28,7 +28,7 @@ export default class IconPicker {
      * @param {Object} options
      */
     constructor(el, options = {}) {
-        this.options = Object.assign(IconPicker.DEFAULT_OPTIONS, options);
+        this.options  = _.mergeDeep(IconPicker.DEFAULT_OPTIONS, options);
         this.element = el;
 
         // Intialize icon picker
@@ -38,14 +38,12 @@ export default class IconPicker {
     }
 
     _preBuild() {
-        this.element = resolveElement(this.element);
+        this.element = _.resolveElement(this.element);
         this.root = template(this.options);
     }
 
     _binEvents() {
         const {options, root, element} = this;
-
-        console.log(root);
 
         this._eventBindings = [
             element.addEventListener('click', () => {
