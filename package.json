@@ -1,14 +1,16 @@
 {
-  "name": "fontawsome-picker",
+  "name": "vanilla-icon-picker",
   "version": "0.0.1-alpha",
   "description": "Icon picker - Vanilla JS icon picker",
   "keywords": [
     "ux",
-    "Fontawsome",
+    "vanilla",
+    "Fontawesome",
     "icon",
     "icon-picker"
   ],
   "main": "./dist/icon-picker.min.js",
+  "typings": "./types/IconPicker.d.ts",
   "author": "Simon <simon@appolo.fr>",
   "license": "MIT",
   "scripts": {
@@ -24,15 +26,15 @@
     "url": "https://github.com/AppoloDev/icon-picker/issues"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/preset-env": "^7.15.8",
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.0",
     "mini-css-extract-plugin": "^2.4.3",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
-    "webpack": "^5.60.0",
+    "webpack": "^5.61.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0",
     "webpack-fix-style-only-entries": "^0.6.1"
