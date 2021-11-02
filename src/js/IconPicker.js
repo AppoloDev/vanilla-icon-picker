@@ -19,7 +19,10 @@ export default class IconPicker {
 
     _eventListener = {
         init: [],
-        change: [],
+        onchange: [],
+        onsave: [],
+        show: [],
+        hide: []
     };
 
     /**
@@ -28,13 +31,21 @@ export default class IconPicker {
      * @param {Object} options
      */
     constructor(el, options = {}) {
-        this.options  = _.mergeDeep(IconPicker.DEFAULT_OPTIONS, options);
+        this.options = _.mergeDeep(IconPicker.DEFAULT_OPTIONS, options);
         this.element = el;
 
-        // Intialize icon picker
+        // Initialize icon picker
         this._preBuild();
-        this._binEvents();
-        this._buildIcons(ICON_SET);
+
+        if (this.element) {
+            this._binEvents();
+            this._buildIcons(ICON_SET);
+            this._createModal();
+        } else {
+            throw new TypeError('The selector is not valid type or is null.');
+        }
+
+        this._emit('init');
     }
 
     _preBuild() {
@@ -46,11 +57,7 @@ export default class IconPicker {
         const {options, root, element} = this;
 
         this._eventBindings = [
-            element.addEventListener('click', () => {
-                this._createModal().then(() => {
-                    this.show()
-                });
-            }),
+            element.addEventListener('click', () => this.show()),
             root.close.addEventListener('click', () => this.hide()),
             root.modal.addEventListener('click', (evt) => {
                 if (evt.target === root.modal) {
@@ -63,7 +70,7 @@ export default class IconPicker {
                 );
 
                 if (!iconResult.length) {
-                    root.content.innerHTML = `<div class="empty">${options.i18n['text:empty']}</div>`;
+                    root.content.innerHTML = `<div class="is-empty">${options.i18n['text:empty']}</div>`;
                 } else {
                     const emptyElement = root.content.querySelector('.empty');
                     if (emptyElement) emptyElement.remove();
@@ -84,7 +91,12 @@ export default class IconPicker {
     hide() {
         if (this.isOpen()) {
             this.root.modal.classList.remove('is-visible');
+            this._emit('hide');
+
+            return this;
         }
+
+        return false
     }
 
     /**
@@ -93,7 +105,12 @@ export default class IconPicker {
     show() {
         if (!this.isOpen()) {
             this.root.modal.classList.add('is-visible');
+            this._emit('show');
+
+            return this;
         }
+
+        return false
     }
 
     /**
@@ -109,6 +126,7 @@ export default class IconPicker {
     }
 
     on(event, callback) {
+        console.log('ON:EVENT', event);
         this._eventListener[event].push(callback);
         return this;
     }
@@ -125,22 +143,19 @@ export default class IconPicker {
     }
 
     _createModal() {
-        return new Promise((resolve) => {
-            if (!document.querySelector('.icon-picker-modal')) {
-                document.body.appendChild(this.root.modal);
-            }
-
-            setTimeout(() => {
-                resolve();
-            }, 1);
-        });
+        document.body.appendChild(this.root.modal);
     }
 
     _onSave() {
         const {element} = this;
 
-        element.value = this.currentlySelectName;
+        if (element instanceof HTMLInputElement) {
+            element.value = this.currentlySelectName;
+        }
+
         this.hide();
+
+        this._emit('onsave', this.currentlySelectName);
     }
 
     _buildIcons(icons) {
@@ -149,7 +164,7 @@ export default class IconPicker {
 
         root.content.innerHTML = '';
 
-        icons.map((icon) => {
+        icons.forEach((icon) => {
             const iconTarget = document.createElement('button');
             iconTarget.className = 'icon-target';
 
@@ -167,7 +182,7 @@ export default class IconPicker {
                     this.currentlySelectElement = evt.currentTarget;
                     this.currentlySelectName = this.currentlySelectElement.firstChild.className;
 
-                    this._emit('change', this.currentlySelectName);
+                    this._emit('onchange', this.currentlySelectName);
                 }
 
                 if (previousSelectedIcon) {
@@ -177,7 +192,6 @@ export default class IconPicker {
                 if (options.closeOnSelect) {
                     this._onSave();
                 }
-
 
                 previousSelectedIcon = this.currentlySelectElement;
             });
