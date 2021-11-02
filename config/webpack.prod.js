@@ -50,9 +50,11 @@ const TerserPlugin = require("terser-webpack-plugin");
 
         output: {
             path: path.resolve('./dist'),
-            library: 'IconPicker',
-            libraryExport: 'default',
-            libraryTarget: 'umd'
+            library: {
+                name: 'IconPicker',
+                export: 'default',
+                type: 'umd2'
+            }
         },
 
         plugins: [
