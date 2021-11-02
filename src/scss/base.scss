@@ -12,6 +12,8 @@ button {
     bottom: 0;
     right: 0;
 
+    z-index: 99;
+
     background-color: rgba(#2478be, 0);
     visibility: hidden;
 
@@ -38,7 +40,6 @@ button {
         z-index: 1;
 
         height: 440px;
-        width: 376px;
 
         opacity: 0;
         transform: translate(-50%, -55%);
@@ -58,24 +59,37 @@ button {
         align-items: center;
 
         h2 {
-            margin-bottom: 0;
+            margin-block-start: 0;
+            margin-block-end: 0;
+
             font-size: 24px;
+        }
+
+        .icon-picker-modal--close {
+            margin-left: auto;
         }
     }
 
     &__search {
         background-color: #f6f9fd;
-        border-color: #f4f7f9;
+
+        outline-color: #f4f7f9;
+
+        border: none;
+        border-radius: 4px;
 
         padding: 10px 16px;
 
-        width: 100%;
-
         margin: 32px 0 24px 0;
 
+        transition: outline .3s ease, box-shadow .3s ease;
+
+        &:focus, &:focus-visible {
+            outline: 1px solid #0983fd;
+        }
+
         &:focus {
-            border-color: #0983fd;
-            box-shadow: 0 0 0 0.25rem rgba(#0983fd, 25%);
+            box-shadow: 0 0 0 4px rgba(#0983fd, 25%);
         }
     }
 
@@ -86,6 +100,11 @@ button {
         grid-gap: 8px;
 
         overflow-y: scroll;
+
+        .is-empty {
+            text-align: center;
+            grid-column: 1 / -1;
+        }
 
         .icon-target {
             display: flex;
@@ -99,6 +118,8 @@ button {
 
             height: 40px;
             width: 40px;
+
+            cursor: pointer;
 
             transition: background-color .3s ease, border-color .3s ease;
 
