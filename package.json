@@ -10,20 +10,20 @@
     "icon-picker"
   ],
   "main": "./dist/icon-picker.min.js",
-  "typings": "./types/IconPicker.d.ts",
+  "types": "./types/IconPicker.d.ts",
   "author": "Simon <simon@appolo.fr>",
   "license": "MIT",
   "scripts": {
     "develop": "webpack serve --progress --mode=development --config=config/webpack.dev.js",
     "build": "node ./config/webpack.prod.js"
   },
-  "homepage": "https://github.com/AppoloDev/icon-picker#readme",
+  "homepage": "https://github.com/AppoloDev/vanilla-icon-picker#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AppoloDev/icon-picker.git"
+    "url": "https://github.com/AppoloDev/vanilla-icon-picker.git"
   },
   "bugs": {
-    "url": "https://github.com/AppoloDev/icon-picker/issues"
+    "url": "https://github.com/AppoloDev/vanilla-icon-picker/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
