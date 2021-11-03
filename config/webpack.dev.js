@@ -10,7 +10,8 @@ module.exports = {
 
     entry: {
         'dist/icon-picker.min': path.resolve('./src/js/IconPicker.js'),
-        'dist/css/icon-picker.min': path.resolve('./src/scss/base.scss'),
+        'dist/themes/bootstrap-5.min': path.resolve('./src/scss/themes/icon-picker.bootstrap-5.scss'),
+        'dist/themes/default.min': path.resolve('./src/scss/themes/icon-picker.default.scss'),
     },
 
     output: {

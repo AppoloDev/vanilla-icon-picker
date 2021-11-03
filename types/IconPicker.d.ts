@@ -12,7 +12,7 @@ declare class IconPicker {
 
 declare namespace IconPicker {
     interface Options {
-        theme?: Theme,
+        theme: Theme,
         closeOnSelect?: boolean,
         i18n?: {
             'input:placeholder'?: string,
@@ -22,9 +22,9 @@ declare namespace IconPicker {
         }
     }
 
-    type Theme = 'default';
+    type Theme = 'default' | 'bootstrap-5';
 
-    type EventType = 'init' | 'onchange' | 'onsave' | 'show' | 'hide';
+    type EventType = 'init' | 'select' | 'save' | 'show' | 'hide';
 }
 
 
