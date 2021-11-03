@@ -1,0 +1,67 @@
+$font-family: -apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+"Roboto",
+"Helvetica Neue", Arial, sans-serif, !default;
+
+$modal-overlay-background: #444545 !default;
+$modal-dialog-background: #FFFFFF !default;
+
+$search-background-color: #F6F9F;
+$search-background-color-focus: #FFFFFF;
+$search-box-shadow-color-focus: #0983FD;
+$search-border-color: #F4F7F9;
+$search-border-color-focus: #06498c;
+
+$icon-target-border: #ced4da !default;
+$icon-target-border-hover: #0983FD !default;
+$icon-target-background-hover: #0983FD !default;
+
+.icon-picker-modal {
+    &__header {
+        h2 {
+            font-family: $font-family;
+        }
+    }
+
+    &__search {
+        background-color: #F6F9FD;
+
+        border: 1px solid $search-border-color;
+        border-radius: 4px;
+
+        padding: 10px 16px;
+
+        transition: border-color .3s ease, box-shadow .3s ease, background-color .3s ease;
+
+        &:focus, &:focus-visible {
+            box-shadow: 0 0 0 4px rgba($search-box-shadow-color-focus, 25%);
+
+            background-color: $search-background-color-focus;
+
+            border-color: $search-border-color-focus;
+            outline: 0;
+        }
+    }
+
+    &__footer {
+        .picker-save {
+            font-family: $font-family;
+            color: #FFF;
+
+            background-color: #0983FD;
+
+            border-radius: 4px;
+
+            padding: 8px 16px;
+
+            transition: background-color .3s ease;
+
+            &:hover {
+                background-color: #0A72CC;
+            }
+        }
+    }
+}
+
+@import '../base';

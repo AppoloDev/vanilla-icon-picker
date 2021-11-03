@@ -24,7 +24,7 @@ declare namespace IconPicker {
 
     type Theme = 'default';
 
-    type EventType = 'init' | 'onchange' | 'onsave' | 'show' | 'hide';
+    type EventType = 'init' | 'select' | 'save' | 'show' | 'hide';
 }
 
 

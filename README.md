@@ -21,16 +21,14 @@ const iconPicker = new IconPicker('input', {
 
 ## Options
 ```javascript
-    theme: 'default',
-    closeOnSelect: true,
-    i18n: {
-        'input:placeholder': 'Search icon…',
-    
-        'text:title': 'Select icon',
-        'text:empty': 'No results found…',
-    
-        'btn:save': 'Save'
-    }
+closeOnSelect: true,
+i18n: {
+    'input:placeholder': 'Search icon…',
+
+    'text:title': 'Select icon',
+    'text:empty': 'No results found…',
+
+    'btn:save': 'Save'
 ```
 
 ## Events
@@ -39,8 +37,8 @@ Use the `on(event, callback)` and `off(event, callback)` functions to bind / unb
 | Event          | Description                           | Arguments            |
 | -------------- | -----------                           | ---------            |
 | `init`         | Initialization done                   | `IconPickerInstance` |
-| `onchange`     | Icon has changed, return icon name    | `string`             |
-| `onsave`       | Icon has saved with button or if `closeOnSelect` the event is automatically fired , return icon name | `string`             |
+| `select`       | Icon is selected, return icon name    | `string`             |
+| `save`         | Fired when saved with button or if `closeOnSelect` option is `true`, return icon name | `string`             |
 | `show`         | Modal is shown                        | `IconPickerInstance` |
 | `hide`         | Modal picker is hidden                | `IconPickerInstance` |
 
@@ -49,6 +47,8 @@ iconPicker.on('init', instance => {
     console.log('Init:', instance);
 });
 ```
+## Icons includes
+- Font Awesome 5
 
 ## Licence
 MIT Licence

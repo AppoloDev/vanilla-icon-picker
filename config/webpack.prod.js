@@ -12,10 +12,12 @@ const TerserPlugin = require("terser-webpack-plugin");
     // CSS
     await webpack({
         entry: {
-            'icon-picker': path.resolve('./src/scss/base.scss')},
+            'default': path.resolve('./src/scss/themes/icon-picker.default.scss'),
+            'bootstrap-5': path.resolve('./src/scss/themes/icon-picker.bootstrap-5.scss')
+        },
 
         output: {
-            path: path.resolve('./dist/css')
+            path: path.resolve('./dist/themes')
         },
 
         module: {
