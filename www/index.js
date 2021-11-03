@@ -1,4 +1,5 @@
 const iconPicker = new IconPicker('input', {
+    theme: 'bootstrap-5',
     closeOnSelect: true
 });
 

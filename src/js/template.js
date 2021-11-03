@@ -3,7 +3,7 @@ import {stringToHTML} from "./utlis/utils";
 export default options => {
     const {theme, i18n, closeOnSelect} = options;
 
-    return getHTMLElements(`
+    const modalElement = getHTMLElements(`
         <div class="icon-picker-modal" tabindex="-1" data-theme="${theme}" data-element="modal" aria-modal="true" aria-labelledby="Icon picker modal" role="dialog">
             <div class="icon-picker-modal__dialog">
                 <div class="icon-picker-modal__header" data-element="header">
@@ -16,18 +16,25 @@ export default options => {
                     </button>
                 </div>
                 
-                <input placeholder="${i18n['input:placeholder']}" class="icon-picker-modal__search form-control" aria-label="${i18n['input:placeholder']}" data-interaction="search">
+                <input placeholder="${i18n['input:placeholder']}" class="icon-picker-modal__search" aria-label="${i18n['input:placeholder']}" data-interaction="search">
                 
                 <div class="icon-picker-modal__content" data-element="content"></div>
             
                 ${!closeOnSelect ? `
                     <div class="icon-picker-modal__footer" data-element="footer">
-                        <button type="button" class="btn btn-primary picker-save" data-interaction="save">${i18n['btn:save']}</button>
+                        <button type="button" class="picker-save" data-interaction="save">${i18n['btn:save']}</button>
                     </div>` : ''
     }
             </div>
         </div>
     `);
+
+    if (theme.includes('bootstrap')) {
+        modalElement.save?.classList.add('btn', 'btn-primary');
+        modalElement.search.classList.add('form-control');
+    }
+
+    return modalElement;
 }
 
 

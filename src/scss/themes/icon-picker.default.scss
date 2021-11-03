@@ -11,20 +11,19 @@ $search-background-color: #F6F9F;
 $search-background-color-focus: #FFFFFF;
 $search-box-shadow-color-focus: #0983FD;
 $search-border-color: #F4F7F9;
-$search-border-color-focus: #06498c;
+$search-border-color-focus: #086acc;
 
 $icon-target-border: #ced4da !default;
-$icon-target-border-hover: #0983FD !default;
 $icon-target-background-hover: #0983FD !default;
 
-.icon-picker-modal {
-    &__header {
+.icon-picker-modal[data-theme='default'] {
+    .icon-picker-modal__header {
         h2 {
             font-family: $font-family;
         }
     }
 
-    &__search {
+    .icon-picker-modal__search {
         background-color: #F6F9FD;
 
         border: 1px solid $search-border-color;
@@ -44,7 +43,7 @@ $icon-target-background-hover: #0983FD !default;
         }
     }
 
-    &__footer {
+    .icon-picker-modal__footer {
         .picker-save {
             font-family: $font-family;
             color: #FFF;
