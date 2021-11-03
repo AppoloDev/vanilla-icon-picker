@@ -19,8 +19,8 @@ export default class IconPicker {
 
     _eventListener = {
         init: [],
-        onchange: [],
-        onsave: [],
+        select: [],
+        save: [],
         show: [],
         hide: []
     };
@@ -126,9 +126,12 @@ export default class IconPicker {
     }
 
     on(event, callback) {
-        console.log('ON:EVENT', event);
-        this._eventListener[event].push(callback);
-        return this;
+        if (this._eventListener[event] !== undefined) {
+            this._eventListener[event].push(callback);
+            return this;
+        }
+
+        return false
     }
 
     off(event, callback) {
@@ -149,13 +152,12 @@ export default class IconPicker {
     _onSave() {
         const {element} = this;
 
-        if (element instanceof HTMLInputElement) {
+        if (element instanceof HTMLInputElement && this.currentlySelectName) {
             element.value = this.currentlySelectName;
         }
 
         this.hide();
-
-        this._emit('onsave', this.currentlySelectName);
+        this._emit('save', this.currentlySelectName);
     }
 
     _buildIcons(icons) {
@@ -182,7 +184,7 @@ export default class IconPicker {
                     this.currentlySelectElement = evt.currentTarget;
                     this.currentlySelectName = this.currentlySelectElement.firstChild.className;
 
-                    this._emit('onchange', this.currentlySelectName);
+                    this._emit('select', this.currentlySelectName);
                 }
 
                 if (previousSelectedIcon) {
