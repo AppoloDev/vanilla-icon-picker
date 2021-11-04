@@ -18,7 +18,6 @@ export default class IconPicker {
     }
 
     _eventListener = {
-        init: [],
         select: [],
         save: [],
         show: [],
@@ -41,11 +40,7 @@ export default class IconPicker {
             this._binEvents();
             this._buildIcons(ICON_SET);
             this._createModal();
-        } else {
-            throw new TypeError('The selector is not valid type or is null.');
         }
-
-        this._emit('init');
     }
 
     _preBuild() {
@@ -57,14 +52,14 @@ export default class IconPicker {
         const {options, root, element} = this;
 
         this._eventBindings = [
-            element.addEventListener('click', () => this.show()),
-            root.close.addEventListener('click', () => this.hide()),
-            root.modal.addEventListener('click', (evt) => {
+            _.addEvent(element, 'click', () => this.show()),
+            _.addEvent(root.close, 'click', () => this.hide()),
+            _.addEvent(root.modal, 'click', (evt) => {
                 if (evt.target === root.modal) {
                     this.hide();
                 }
             }),
-            root.search.addEventListener('keyup', (evt) => {
+            _.addEvent(root.search, 'keyup', (evt) => {
                 const iconResult = ICON_SET.filter((obj) =>
                     JSON.stringify(obj).toLowerCase().includes(evt.target.value.toLowerCase())
                 );
@@ -81,7 +76,7 @@ export default class IconPicker {
         ];
 
         if (!options.closeOnSelect) {
-            this._eventBindings.push(root.save.addEventListener('click', () => this._onSave()));
+            this._eventBindings.push(_.addEvent(root.save, 'click', () => this._onSave()));
         }
     }
 
@@ -121,6 +116,22 @@ export default class IconPicker {
         return this.root.modal.classList.contains('is-visible');
     }
 
+    /**
+     * Destroy icon picker instance and detach all events listeners
+     * @param {boolean} deleteInstance
+     */
+    destroy(deleteInstance = true) {
+        this.initialized = false;
+
+        // Remove elements events
+        this._eventBindings.forEach(args => _.removeEvent(...args));
+
+        // Delete instance
+        if (deleteInstance) {
+            Object.keys(this).forEach((key) => delete this[key]);
+        }
+    }
+
     _emit(event, ...args) {
         this._eventListener[event].forEach(cb => cb(...args, this));
     }
@@ -146,7 +157,11 @@ export default class IconPicker {
     }
 
     _createModal() {
-        document.body.appendChild(this.root.modal);
+        const picker = this;
+
+        document.body.appendChild(picker.root.modal);
+
+        picker.initialized = true;
     }
 
     _onSave() {
@@ -160,6 +175,11 @@ export default class IconPicker {
         this._emit('save', this.currentlySelectName);
     }
 
+    /**
+     * Generate icons elements
+     * @param icons
+     * @private
+     */
     _buildIcons(icons) {
         const {root, options} = this;
         let previousSelectedIcon = null;
@@ -168,7 +188,7 @@ export default class IconPicker {
 
         icons.forEach((icon) => {
             const iconTarget = document.createElement('button');
-            iconTarget.className = 'icon-target';
+            iconTarget.className = 'icon-element';
 
             const iconElement = document.createElement('i');
             iconElement.className = icon.value;

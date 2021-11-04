@@ -1,3 +1,41 @@
+function eventListener(method, elements, events, fn) {
+    if (!Array.isArray(elements)) {
+        elements = [elements];
+    }
+
+    if (!Array.isArray(events)) {
+        events = [events];
+    }
+
+    for (const el of elements) {
+        for (const ev of events) {
+            el[method](ev, fn);
+        }
+    }
+
+    return [].slice.call(arguments, 1);
+}
+
+/**
+ * Add event to element.
+ * @param elements DOM-Elements
+ * @param events Event names
+ * @param fn Callback
+ * @param options Optional options
+ * @return Array passed arguments
+ */
+export const addEvent = eventListener.bind(null, 'addEventListener');
+
+/**
+ * Remove event from element.
+ * @param elements DOM-Elements
+ * @param events Event names
+ * @param fn Callback
+ * @param options Optional options
+ * @return Array passed arguments
+ */
+export const removeEvent = eventListener.bind(null, 'removeEventListener');
+
 /**
  * Resolves a HTMLElement by query.
  * @param val
@@ -52,11 +90,11 @@ export function mergeDeep(target, source) {
         Object.keys(source).forEach(key => {
             if (isObject(source[key])) {
                 if (!(key in target))
-                    Object.assign(output, { [key]: source[key] });
+                    Object.assign(output, {[key]: source[key]});
                 else
                     output[key] = mergeDeep(target[key], source[key]);
             } else {
-                Object.assign(output, { [key]: source[key] });
+                Object.assign(output, {[key]: source[key]});
             }
         });
     }
