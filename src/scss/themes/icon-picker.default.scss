@@ -1,20 +1,10 @@
-$font-family: -apple-system,
-BlinkMacSystemFont,
-"Segoe UI",
-"Roboto",
-"Helvetica Neue", Arial, sans-serif, !default;
-
-$modal-overlay-background: #444545 !default;
-$modal-dialog-background: #FFFFFF !default;
+@import '../config/variables';
 
 $search-background-color: #F6F9F;
 $search-background-color-focus: #FFFFFF;
 $search-box-shadow-color-focus: #0983FD;
 $search-border-color: #F4F7F9;
 $search-border-color-focus: #086acc;
-
-$icon-target-border: #ced4da !default;
-$icon-target-background-hover: #0983FD !default;
 
 .icon-picker-modal[data-theme='default'] {
     .icon-picker-modal__header {

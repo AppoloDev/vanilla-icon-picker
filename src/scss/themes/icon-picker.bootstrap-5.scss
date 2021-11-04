@@ -1,7 +1,9 @@
-$modal-overlay-background: var(--bs-dark-rgb) !default;
-$modal-dialog-background: #FFFFFF !default;
+@import '../config/variables';
 
-$icon-target-border: var(--bs-gray-400) !default;
-$icon-target-background-hover: var(--bs-primary) !default;
+$modal-overlay-background: var(--bs-dark-rgb);
+$modal-dialog-background: #FFFFFF;
+
+$icon-element-border: var(--bs-gray-400);
+$icon-element-background-hover: var(--bs-primary);
 
 @import '../base';
