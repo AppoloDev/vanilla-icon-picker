@@ -1,3 +1,7 @@
+body {
+    background-color: #F1E6DF;
+}
+
 .input-group-text {
     display: flex;
     align-items: center;

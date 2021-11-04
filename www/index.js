@@ -7,7 +7,7 @@ const iconPickerInput = new IconPicker('input', {
 const iconElementInput = document.querySelector('.input-group-text');
 iconPickerInput.on('select', (icon) => {
     iconElementInput.className = `input-group-text ${icon}`;
-})
+});
 
 // Icon picker with `default` theme
 const iconPickerButton = new IconPicker('.btn', {
@@ -18,4 +18,4 @@ const iconPickerButton = new IconPicker('.btn', {
 const iconElementButton = document.querySelector('.icon-selected-text');
 iconPickerButton.on('select', (icon) => {
     iconElementButton.innerText = `Icon selected: ${icon}`;
-})
+});
