@@ -1,8 +1,21 @@
-const iconPicker = new IconPicker('input', {
+// Icon picker with `bootstrap-5` theme
+const iconPickerInput = new IconPicker('input', {
     theme: 'bootstrap-5',
     closeOnSelect: true
 });
 
-iconPicker.on('save', (evt) => {
-    console.log(evt);
+const iconElementInput = document.querySelector('.input-group-text');
+iconPickerInput.on('select', (icon) => {
+    iconElementInput.className = `input-group-text ${icon}`;
+})
+
+// Icon picker with `default` theme
+const iconPickerButton = new IconPicker('.btn', {
+    theme: 'default',
+    closeOnSelect: true
+});
+
+const iconElementButton = document.querySelector('.icon-selected-text');
+iconPickerButton.on('select', (icon) => {
+    iconElementButton.innerText = `Icon selected: ${icon}`;
 })

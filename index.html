@@ -15,10 +15,31 @@
 </head>
 <body>
 <main>
-    <h1>Icon Picker</h1>
+    <div class="container">
+        <h1>Icon Picker</h1>
 
-    <label for="icon-picker">Choose icon</label>
-    <input type="text" id="icon-picker">
+        <div class="row">
+            <div class="col-6">
+                <h2>Input</h2>
+                <div class="form-group">
+                    <label for="icon-picker" class="form-label">Choose icon</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"></span>
+                        <input type="text" id="icon-picker" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <h2>Button</h2>
+
+                <button class="btn btn-primary">Choose icon</button>
+                <p class="lead icon-selected-text"></p>
+            </div>
+        </div>
+    </div>
 </main>
 </body>
 

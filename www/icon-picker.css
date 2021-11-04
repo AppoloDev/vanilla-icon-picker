@@ -1,3 +1,19 @@
+.input-group-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 40px;
+}
+
+.row:not(:last-child) {
+    margin-bottom: 40px;
+}
+
+.icon-selected-text {
+    font-size: 1rem;
+}
+
 button {
     -webkit-appearance: none;
     background: none;
