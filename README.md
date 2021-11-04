@@ -1,6 +1,7 @@
 # Vanilla icon picker
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/appolodev/icon-picker?color=blue&style=flat-square)
+![npm](https://img.shields.io/npm/dm/vanilla-icon-picker?color=%2325b5ba&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/appolodev/icon-picker?style=flat-square)
 
 ### Icons includes:
@@ -46,33 +47,21 @@ const iconPicker = new IconPicker('input', {
 ```javascript
 {
     // Change icon picker's theme
-    theme: 'default',
+    theme: 'default' | 'bootstrap-5',
 
-        // Close icon picker modal when icon is selected
-        // If is `false` save button appear
-        closeOnSelect
-:
-    true,
+    // Close icon picker modal when icon is selected
+    // If is `false` save button appear
+    closeOnSelect: true,
 
-        // Translatable text
-        i18n
-:
-    {
-        'input:placeholder'
-    :
-        'Search icon…',
+    // Translatable text
+    i18n: {
+    'input:placeholder': 'Search icon…',
 
-            'text:title'
-    :
-        'Select icon',
-            'text:empty'
-    :
-        'No results found…',
+    'text:title': 'Select icon',
+    'text:empty': 'No results found…',
 
-            'btn:save'
-    :
-        'Save'
-    }
+    'btn:save': 'Save'
+}
 ```
 
 ## Events
@@ -81,17 +70,30 @@ Use the `on(event, callback)` and `off(event, callback)` functions to bind / unb
 
 | Event          | Description                           | Arguments            |
 | -------------- | -----------                           | ---------            |
-| `init`         | Initialization done                   | `IconPickerInstance` |
 | `select`       | Icon is selected, return icon name    | `string`             |
 | `save`         | Fired when saved with button or if `closeOnSelect` option is `true`, return icon name | `string`             |
 | `show`         | Modal is shown                        | `IconPickerInstance` |
 | `hide`         | Modal picker is hidden                | `IconPickerInstance` |
 
 ```javascript
-iconPicker.on('init', instance => {
-    console.log('Init:', instance);
+iconPicker.on('select', instance => {
+    console.log('Select:', instance);
 });
 ```
+
+## Methods
+
+After we initialize IconPicker, we have access instance. Let's look list all available methods:
+
+| Method                    | Description               |
+| ------------------------- | ------------------------- |
+| `on()`                    | Add event handler         |
+| `off()`                   | Remove event handler      |
+| `open()`                  | Open IconPicker's modal   |
+| `hide()`                  | Remove IconPicker's modal |
+| `isOpen()`                | Check if open or not      |
+| `destroy(deleteInstance)` | Set it to false (by default it is true) to not to delete IconPicker instance |
+
 
 ## Licence
 

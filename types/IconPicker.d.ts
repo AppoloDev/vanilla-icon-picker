@@ -1,13 +1,17 @@
 declare class IconPicker {
     constructor(el: String | HTMLElement, options: IconPicker.Options);
 
-    on(event: IconPicker.EventType, callback: Function): IconPicker;
+    on(event: IconPicker.EventType, callback?: Function): IconPicker;
+
+    off(event: IconPicker.EventType, callback?: Function): IconPicker;
+
+    open(): void;
 
     hide(): void;
 
-    open: void;
-
     isOpen(): boolean;
+
+    detroy(deleteInstance?: boolean): void;
 }
 
 declare namespace IconPicker {
@@ -24,7 +28,7 @@ declare namespace IconPicker {
 
     type Theme = 'default' | 'bootstrap-5';
 
-    type EventType = 'init' | 'select' | 'save' | 'show' | 'hide';
+    type EventType = 'select' | 'save' | 'show' | 'hide';
 }
 
 
