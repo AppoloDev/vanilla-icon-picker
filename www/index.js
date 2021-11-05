@@ -1,6 +1,7 @@
 // Icon picker with `bootstrap-5` theme
 const iconPickerInput = new IconPicker('input', {
     theme: 'bootstrap-5',
+    iconSource: ['FontAwesome-5', 'Iconoir'],
     closeOnSelect: true
 });
 

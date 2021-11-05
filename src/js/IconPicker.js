@@ -2,11 +2,14 @@ import * as _ from "./utlis/utils";
 import template from "./template";
 
 import ICON_SET from 'font-awesome-iconset';
+import iconSet from '@iconify/json';
+import {Collection} from "@iconify/json-tools";
 
 export default class IconPicker {
     static DEFAULT_OPTIONS = {
         theme: 'default',
         closeOnSelect: true,
+        iconSource: [],
         i18n: {
             'input:placeholder': 'Search icon…',
 
@@ -36,9 +39,11 @@ export default class IconPicker {
         // Initialize icon picker
         this._preBuild();
 
-        if (this.element) {
+        console.log(this.options.iconSource);
+
+        if (this.element && this.options.iconSource.length > 0) {
             this._binEvents();
-            this._buildIcons(ICON_SET);
+            this._buildIcons();
             this._createModal();
         }
     }
@@ -46,6 +51,10 @@ export default class IconPicker {
     _preBuild() {
         this.element = _.resolveElement(this.element);
         this.root = template(this.options);
+
+        if (!Array.isArray(this.options.iconSource) && this.options.iconSource.length > 0) {
+            this.options.iconSource = [this.options.iconSource];
+        }
     }
 
     _binEvents() {
@@ -177,14 +186,15 @@ export default class IconPicker {
 
     /**
      * Generate icons elements
-     * @param icons
      * @private
      */
-    _buildIcons(icons) {
+    _buildIcons() {
         const {root, options} = this;
         let previousSelectedIcon = null;
 
         root.content.innerHTML = '';
+
+        const icons = this._getIcons();
 
         icons.forEach((icon) => {
             const iconTarget = document.createElement('button');
@@ -218,5 +228,39 @@ export default class IconPicker {
                 previousSelectedIcon = this.currentlySelectElement;
             });
         });
+    }
+
+    /**
+     *
+     * @returns {string}
+     * @private
+     */
+    _getIcons() {
+        const {options} = this
+        const iconsURL = [];
+
+        /*if (options.iconSource.length > 1) {
+            for (const iconKey of options.iconSource) {
+                iconsURL.push(iconSource[iconKey].metadata)
+            }
+        } else {
+            iconsURL.push(iconSource[options.iconSource].metadata)
+        }*/
+
+        let collection = new Collection();
+        collection.loadIconifyCollection('iconoir', './node_modules/@iconify');
+
+        console.log(collection);
+
+        //console.log(iconSet.rootDir());
+
+        //fetch(iconSet.locate('iconoir')).then((response)=> response).then((result) => console.log(result))
+
+        /*Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response)))
+            .then((result) => {
+                console.log('result', result);
+            })*/
+
+        return 'foo';
     }
 }
