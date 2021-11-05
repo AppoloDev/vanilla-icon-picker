@@ -32,6 +32,7 @@
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
     "mini-css-extract-plugin": "^2.4.4",
+    "path-browserify": "^1.0.1",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "webpack": "^5.61.0",
@@ -40,6 +41,8 @@
     "webpack-fix-style-only-entries": "^0.6.1"
   },
   "dependencies": {
+    "@iconify/json": "^1.1.424",
+    "@iconify/json-tools": "^1.0.10",
     "font-awesome-iconset": "^5.15.0"
   }
 }
