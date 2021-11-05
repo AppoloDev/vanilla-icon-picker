@@ -17,10 +17,3 @@ body {
 .icon-selected-text {
     font-size: 1rem;
 }
-
-button {
-    -webkit-appearance: none;
-    background: none;
-    border: none;
-    padding: 0;
-}
