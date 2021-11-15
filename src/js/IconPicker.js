@@ -1,9 +1,7 @@
 import * as _ from "./utlis/utils";
 import template from "./template";
 
-import ICON_SET from 'font-awesome-iconset';
-import iconSet from '@iconify/json';
-import {Collection} from "@iconify/json-tools";
+const iconifyPath = 'node_modules/@iconify/json/json';
 
 export default class IconPicker {
     static DEFAULT_OPTIONS = {
@@ -39,8 +37,6 @@ export default class IconPicker {
         // Initialize icon picker
         this._preBuild();
 
-        console.log(this.options.iconSource);
-
         if (this.element && this.options.iconSource.length > 0) {
             this._binEvents();
             this._buildIcons();
@@ -69,15 +65,21 @@ export default class IconPicker {
                 }
             }),
             _.addEvent(root.search, 'keyup', (evt) => {
-                const iconResult = ICON_SET.filter((obj) =>
-                    JSON.stringify(obj).toLowerCase().includes(evt.target.value.toLowerCase())
+                //@TODO: La recherche est cassé
+                console.log('this.iconsAvailable', this.iconsAvailable);
+                const iconResult = this.iconsAvailable.filter((obj) => {
+                        console.log(obj);
+                    }
+                    //JSON.stringify(obj).toLowerCase().includes(evt.target.value.toLowerCase())
                 );
 
                 if (!iconResult.length) {
                     root.content.innerHTML = `<div class="is-empty">${options.i18n['text:empty']}</div>`;
                 } else {
                     const emptyElement = root.content.querySelector('.empty');
-                    if (emptyElement) emptyElement.remove();
+                    if (emptyElement) {
+                        emptyElement.remove();
+                    }
 
                     this._buildIcons(iconResult);
                 }
@@ -181,52 +183,60 @@ export default class IconPicker {
         }
 
         this.hide();
-        this._emit('save', this.currentlySelectName);
+        this._emit('save', {name: this.currentlySelectName, svg: this.SVGString});
     }
 
     /**
      * Generate icons elements
      * @private
      */
-    _buildIcons() {
+    async _buildIcons() {
         const {root, options} = this;
         let previousSelectedIcon = null;
+        let icons;
 
         root.content.innerHTML = '';
 
-        const icons = this._getIcons();
+        icons = await this._getIcons();
 
-        icons.forEach((icon) => {
-            const iconTarget = document.createElement('button');
-            iconTarget.className = 'icon-element';
+        icons.forEach((library) => {
+            for (const [key, value] of Object.entries(library.icons)) {
+                const iconTarget = document.createElement('button');
+                iconTarget.className = `icon-element ${library.prefix}`;
 
-            const iconElement = document.createElement('i');
-            iconElement.className = icon.value;
+                const iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                iconElement.setAttribute('height', '24');
+                iconElement.setAttribute('width', '24');
+                iconElement.setAttribute('viewBox', `0 0 ${value.width ? value.width : library.width} ${library.height}`);
+                iconElement.classList.add(key);
+                iconElement.innerHTML = value.body;
 
-            iconTarget.append(iconElement)
+                iconTarget.append(iconElement)
 
-            root.content.appendChild(iconTarget);
+                root.content.appendChild(iconTarget);
 
-            iconTarget.addEventListener('click', (evt) => {
-                if (this.currentlySelectName !== evt.currentTarget.firstChild.className) {
-                    evt.currentTarget.classList.add('is-selected');
+                iconTarget.addEventListener('click', (evt) => {
+                    if (this.currentlySelectName !== evt.currentTarget.firstChild.className) {
+                        evt.currentTarget.classList.add('is-selected');
 
-                    this.currentlySelectElement = evt.currentTarget;
-                    this.currentlySelectName = this.currentlySelectElement.firstChild.className;
+                        this.currentlySelectElement = evt.currentTarget;
+                        this.currentlySelectName = this.currentlySelectElement.firstChild.getAttribute('class');
+                        this.SVGString = iconElement.outerHTML;
 
-                    this._emit('select', this.currentlySelectName);
-                }
+                        this._emit('select', {name: this.currentlySelectName, svg: this.SVGString});
+                    }
 
-                if (previousSelectedIcon) {
-                    previousSelectedIcon.classList.remove('is-selected');
-                }
+                    if (previousSelectedIcon) {
+                        previousSelectedIcon.classList.remove('is-selected');
+                    }
 
-                if (options.closeOnSelect) {
-                    this._onSave();
-                }
+                    if (options.closeOnSelect) {
+                        this._onSave();
+                    }
 
-                previousSelectedIcon = this.currentlySelectElement;
-            });
+                    previousSelectedIcon = this.currentlySelectElement;
+                });
+            }
         });
     }
 
@@ -235,32 +245,19 @@ export default class IconPicker {
      * @returns {string}
      * @private
      */
-    _getIcons() {
+    async _getIcons() {
         const {options} = this
         const iconsURL = [];
 
-        /*if (options.iconSource.length > 1) {
+        if (options.iconSource.length > 0) {
             for (const iconKey of options.iconSource) {
-                iconsURL.push(iconSource[iconKey].metadata)
+                iconsURL.push(`${iconifyPath}/${iconKey}.json`)
             }
-        } else {
-            iconsURL.push(iconSource[options.iconSource].metadata)
-        }*/
+        }
 
-        let collection = new Collection();
-        collection.loadIconifyCollection('iconoir', './node_modules/@iconify');
-
-        console.log(collection);
-
-        //console.log(iconSet.rootDir());
-
-        //fetch(iconSet.locate('iconoir')).then((response)=> response).then((result) => console.log(result))
-
-        /*Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response)))
-            .then((result) => {
-                console.log('result', result);
-            })*/
-
-        return 'foo';
+        return await Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response.json())))
+            .then((iconLibrary) => {
+                return iconLibrary;
+            });
     }
 }

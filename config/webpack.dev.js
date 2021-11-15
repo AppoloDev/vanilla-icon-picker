@@ -8,13 +8,6 @@ module.exports = {
 
     cache: false,
 
-    resolve: {
-        fallback: {
-            "path": require.resolve("path-browserify"),
-            "fs": false
-        }
-    },
-
     entry: {
         'dist/icon-picker.min': path.resolve('./src/js/IconPicker.js'),
         'dist/themes/bootstrap-5.min': path.resolve('./src/scss/themes/icon-picker.bootstrap-5.scss'),
