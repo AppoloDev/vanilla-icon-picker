@@ -94,6 +94,8 @@
             border: 1px solid $icon-element-border;
             border-radius: $icon-element-border-radius;
 
+            color: $icon-element-color;
+
             background-color: transparent;
 
             height: 40px;
@@ -104,7 +106,7 @@
             transition: background-color .3s ease, border-color .3s ease;
 
             &:hover, &.is-selected {
-                color: $icon-element-color;
+                color: $icon-element-color-hover;
 
                 background-color: $icon-element-background-hover;
                 border-color: $icon-element-background-hover;
