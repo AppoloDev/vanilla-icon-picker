@@ -75,7 +75,7 @@
 
     &__content {
         display: grid;
-        grid-template-columns: repeat($columns-number, 1fr);
+        grid-template-columns: repeat($columns-number, 40px);
         grid-template-rows: max-content;
         grid-gap: $grid-gap;
 
