@@ -4,7 +4,9 @@ $modal-overlay-background: var(--bs-dark-rgb) !default;
 $modal-dialog-background: #FFFFFF !default;
 
 $icon-element-border: var(--bs-gray-400) !default;
+
 $icon-element-background-hover: var(--bs-primary) !default;
+$icon-element-background-selected: $icon-element-background-hover !default;
 
 $icon-element-color: var(--bs-primary) !default;
 

@@ -9,11 +9,13 @@ $modal-dialog-background: #FFFFFF !default;
 
 $icon-element-border: #CED4DA !default;
 $icon-element-background-hover: #0983FD !default;
+$icon-element-background-selected: $icon-element-background-hover !default;
 
-$columns-number: 7;
-$grid-gap: 8px;
+$columns-number: 7 !default;
+$grid-gap: 8px !default;
 
-$icon-element-border-radius: 4px;
+$icon-element-border-radius: 4px !default;
 
 $icon-element-color: #0983FD !default;
 $icon-element-color-hover: #FFFFFF !default;
+$icon-element-color-selected: $icon-element-color-hover !default;
