@@ -76,7 +76,6 @@
     &__content {
         display: grid;
         grid-template-columns: repeat($columns-number, 40px);
-        grid-template-rows: max-content;
         grid-gap: $grid-gap;
 
         overflow-y: scroll;
@@ -124,6 +123,10 @@
                 i, svg {
                     color: $icon-element-color-selected;
                 }
+            }
+
+            &[hidden] {
+                display: none;
             }
         }
     }

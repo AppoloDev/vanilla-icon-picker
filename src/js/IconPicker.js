@@ -1,5 +1,6 @@
 import * as _ from "./utlis/utils";
 import template from "./template";
+import {resolveCollection} from "./utlis/collections";
 
 const iconifyPath = 'node_modules/@iconify/json/json';
 
@@ -39,7 +40,7 @@ export default class IconPicker {
 
         if (this.element && this.options.iconSource.length > 0) {
             this._binEvents();
-            this._buildIcons();
+            this._renderdIcons();
             this._createModal();
         }
     }
@@ -55,6 +56,7 @@ export default class IconPicker {
 
     _binEvents() {
         const {options, root, element} = this;
+        let iconsElements = [];
 
         this._eventBindings = [
             _.addEvent(element, 'click', () => this.show()),
@@ -64,26 +66,33 @@ export default class IconPicker {
                     this.hide();
                 }
             }),
-            _.addEvent(root.search, 'keyup', (evt) => {
-                //@TODO: La recherche est cassé
-                console.log('this.iconsAvailable', this.iconsAvailable);
-                const iconResult = this.iconsAvailable.filter((obj) => {
-                        console.log(obj);
-                    }
-                    //JSON.stringify(obj).toLowerCase().includes(evt.target.value.toLowerCase())
-                );
+            _.addEvent(root.search, 'keyup', _.debounce((evt) => {
+                const iconsResult = this.availableIcons.filter((obj) => obj.value.includes(evt.target.value.toLowerCase()));
 
-                if (!iconResult.length) {
-                    root.content.innerHTML = `<div class="is-empty">${options.i18n['text:empty']}</div>`;
-                } else {
-                    const emptyElement = root.content.querySelector('.empty');
+                if (!iconsElements.length) {
+                    iconsElements = document.querySelectorAll('.icon-element');
+                }
+
+                iconsElements.forEach((iconElement) => {
+                    iconElement.hidden = true;
+
+                    iconsResult.forEach((result) => {
+                        if (iconElement.classList.contains(result.value)) {
+                            iconElement.hidden = false;
+                        }
+                    });
+                });
+
+                if (iconsResult.length) {
+                    const emptyElement = root.content.querySelector('.is-empty');
+
                     if (emptyElement) {
                         emptyElement.remove();
                     }
-
-                    this._buildIcons(iconResult);
+                } else {
+                    root.content.appendChild(_.stringToHTML(`<div class="is-empty">${options.i18n['text:empty']}</div>`));
                 }
-            })
+            }, 250))
         ];
 
         if (!options.closeOnSelect) {
@@ -168,11 +177,9 @@ export default class IconPicker {
     }
 
     _createModal() {
-        const picker = this;
+        document.body.appendChild(this.root.modal);
 
-        document.body.appendChild(picker.root.modal);
-
-        picker.initialized = true;
+        this.initialized = true;
     }
 
     _onSave() {
@@ -190,40 +197,60 @@ export default class IconPicker {
      * Generate icons elements
      * @private
      */
-    async _buildIcons() {
+    async _renderdIcons() {
         const {root, options} = this;
         let previousSelectedIcon = null;
-        let icons;
+        let currentlySelectElement = null;
+        this.availableIcons = [];
 
         root.content.innerHTML = '';
 
-        icons = await this._getIcons();
+        let icons = await this._getIcons();
 
         icons.forEach((library) => {
             for (const [key, value] of Object.entries(library.icons)) {
                 const iconTarget = document.createElement('button');
-                iconTarget.className = `icon-element ${library.prefix}`;
+                iconTarget.className = 'icon-element';
 
                 const iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                 iconElement.setAttribute('height', '24');
                 iconElement.setAttribute('width', '24');
-                iconElement.setAttribute('viewBox', `0 0 ${value.width ? value.width : library.width} ${library.height}`);
-                iconElement.classList.add(key);
+                iconElement.setAttribute('viewBox', `0 0 ${value.width ? value.width : library.width} ${value.height ? value.height : library.height}`);
+                iconElement.dataset.value = library.prefix + key
                 iconElement.innerHTML = value.body;
+
+                if (library.chars) {
+                    iconElement.dataset.unicode = _.getKeyByValue(library.chars, key);
+                }
 
                 iconTarget.append(iconElement)
 
                 root.content.appendChild(iconTarget);
 
+                this.availableIcons.push({value: key, body: iconElement.outerHTML});
+
+                // Icon click event
                 iconTarget.addEventListener('click', (evt) => {
                     if (this.currentlySelectName !== evt.currentTarget.firstChild.className) {
+                        let values = {}
                         evt.currentTarget.classList.add('is-selected');
 
-                        this.currentlySelectElement = evt.currentTarget;
-                        this.currentlySelectName = this.currentlySelectElement.firstChild.getAttribute('class');
+                        currentlySelectElement = evt.currentTarget;
+                        this.currentlySelectName = currentlySelectElement.firstChild.dataset.value;
                         this.SVGString = iconElement.outerHTML;
 
-                        this._emit('select', {name: this.currentlySelectName, svg: this.SVGString});
+                        values = {
+                            name: key,
+                            value: this.currentlySelectName,
+                            svg: this.SVGString,
+                        }
+
+                        if (library.chars) {
+                            values = {...values, unicode: iconElement.dataset.unicode}
+                        }
+
+                        // TODO: select et save doivent renvoyer les mêmes données
+                        this._emit('select', values);
                     }
 
                     if (previousSelectedIcon) {
@@ -234,7 +261,7 @@ export default class IconPicker {
                         this._onSave();
                     }
 
-                    previousSelectedIcon = this.currentlySelectElement;
+                    previousSelectedIcon = currentlySelectElement;
                 });
             }
         });
@@ -248,15 +275,29 @@ export default class IconPicker {
     async _getIcons() {
         const {options} = this
         const iconsURL = [];
+        let sourceInformation = {};
 
         if (options.iconSource.length > 0) {
-            for (const iconKey of options.iconSource) {
-                iconsURL.push(`${iconifyPath}/${iconKey}.json`)
+            for (const source of options.iconSource) {
+                sourceInformation = resolveCollection(source);
+
+                console.log('sourceInformation', sourceInformation);
+
+                if (Array.isArray(sourceInformation.key)) {
+                    sourceInformation.key.forEach(key => iconsURL.push(`${iconifyPath}/${key}.json`))
+                } else {
+                    iconsURL.push(`${iconifyPath}/${sourceInformation.key}.json`)
+                }
             }
         }
 
         return await Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response.json())))
             .then((iconLibrary) => {
+                // TODO: Pas le bon prefix quand il y a plus de 2 library
+                iconLibrary.forEach((library) => {
+                    library.prefix = sourceInformation.prefix
+                })
+
                 return iconLibrary;
             });
     }

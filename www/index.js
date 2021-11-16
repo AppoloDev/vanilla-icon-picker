@@ -1,13 +1,14 @@
 // Icon picker with `bootstrap-5` theme
 const iconPickerInput = new IconPicker('input', {
     theme: 'bootstrap-5',
-    iconSource: ['eva', 'mdi'],
-    //iconSource: ['FontAwesome-5', 'Iconoir'],
+    iconSource: ['Iconoir', 'FontAwesome Brands 5'],
     closeOnSelect: true
 });
 
 const iconElementInput = document.querySelector('.input-group-text');
-iconPickerInput.on('save', (icon) => {
+iconPickerInput.on('select', (icon) => {
+    console.log('Icon Selected', icon);
+
     if (iconElementInput.innerHTML !== '') {
         iconElementInput.innerHTML = '';
     }

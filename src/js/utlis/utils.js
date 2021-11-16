@@ -118,3 +118,13 @@ export function debounce(callback, delay){
         }, delay)
     }
 }
+
+/**
+ *
+ * @param object
+ * @param value
+ * @returns {string}
+ */
+export function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}

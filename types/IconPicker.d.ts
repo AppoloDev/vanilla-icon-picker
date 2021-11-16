@@ -29,7 +29,7 @@ declare namespace IconPicker {
 
     type Theme = 'default' | 'bootstrap-5';
 
-    type IconSource = 'FontAwesome-5' | 'Iconoir'
+    type IconSource = 'FontAwesome 5' | 'FontAwesome Brands 5' | 'FontAwesome Solid 5' | 'FontAwesome Regular 5' | 'Material Design Icons' | 'Iconoir'
 
     type EventType = 'select' | 'save' | 'show' | 'hide';
 }
