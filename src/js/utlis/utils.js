@@ -100,3 +100,21 @@ export function mergeDeep(target, source) {
     }
     return output;
 }
+
+/**
+ *
+ * @param callback
+ * @param delay
+ * @returns {(function(): void)|*}
+ */
+export function debounce(callback, delay){
+    var timer;
+    return function(){
+        var args = arguments;
+        var context = this;
+        clearTimeout(timer);
+        timer = setTimeout(function(){
+            callback.apply(context, args);
+        }, delay)
+    }
+}
