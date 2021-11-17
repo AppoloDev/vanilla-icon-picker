@@ -51,10 +51,18 @@ const iconPicker = new IconPicker('input', {
     // Change icon picker's theme
     theme: 'default' | 'bootstrap-5',
 
+    // Set icon(s) library(ies)
+    // 'FontAwesome Brands 5' | 'FontAwesome Solid 5' | 'FontAwesome Regular 5' | 'Material Design Icons' | 'Iconoir'
+    iconSource: [],
+
     // Close icon picker modal when icon is selected
     // If is `false` save button appear
     closeOnSelect: true,
-
+    
+    // Set a default value, preselect for example
+    // icon's value and icon's name work
+    defaultValue: null,
+        
     // Translatable text
     i18n: {
     'input:placeholder': 'Search icon…',
@@ -72,8 +80,8 @@ Use the `on(event, callback)` and `off(event, callback)` functions to bind / unb
 
 | Event          | Description                           | Arguments            |
 | -------------- | -----------                           | ---------            |
-| `select`       | Icon is selected, return icon name    | `Object`             |
-| `save`         | Fired when saved with button or if `closeOnSelect` option is `true`, return icon name | `Object`             |
+| `select`       | Icon is selected, return icon value, name, svg and unicode if exist    | `Object`             |
+| `save`         | Fired when saved with button or if `closeOnSelect` option is `true`, return return icon value, name, svg and unicode if exist | `Object`             |
 | `show`         | Modal is shown                        | `IconPickerInstance` |
 | `hide`         | Modal picker is hidden                | `IconPickerInstance` |
 
