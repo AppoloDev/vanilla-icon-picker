@@ -2,7 +2,7 @@ import * as _ from "./utlis/utils";
 import template from "./template";
 import {resolveCollection} from "./utlis/collections";
 
-const iconifyPath = 'node_modules/@iconify/json/json';
+const iconifyPath = 'https://raw.githubusercontent.com/iconify/collections-json/master/json';
 
 export default class IconPicker {
     static DEFAULT_OPTIONS = {
@@ -297,6 +297,9 @@ export default class IconPicker {
         const iconsURL = [];
 
         let sourceInformation = resolveCollection(options.iconSource);
+
+        //const dataObject = JSON.parse(fs.readFileSync('data/file.json'));
+        //console.log('dataObject', dataObject);
 
         if (options.iconSource.length > 0) {
             for (const source of Object.values(sourceInformation)) {
