@@ -298,9 +298,6 @@ export default class IconPicker {
 
         let sourceInformation = resolveCollection(options.iconSource);
 
-        //const dataObject = JSON.parse(fs.readFileSync('data/file.json'));
-        //console.log('dataObject', dataObject);
-
         if (options.iconSource.length > 0) {
             for (const source of Object.values(sourceInformation)) {
                 iconsURL.push(`${iconifyPath}/${source.key}.json`)
