@@ -43,6 +43,8 @@ export default class IconPicker {
             this._binEvents();
             this._renderdIcons();
             this._createModal();
+        } else {
+            this._catchError('iconSourceMissing');
         }
     }
 
@@ -208,20 +210,19 @@ export default class IconPicker {
 
         icons.forEach((library) => {
             for (const [key, value] of Object.entries(library.icons)) {
-                //@TODO: Mettre tout sur l'élément target
                 const iconTarget = document.createElement('button');
                 iconTarget.className = `icon-element ${key}`;
+                iconTarget.dataset.value = library.prefix + key
+
+                if (library.chars) {
+                    iconTarget.dataset.unicode = _.getKeyByValue(library.chars, key);
+                }
 
                 const iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                 iconElement.setAttribute('height', '24');
                 iconElement.setAttribute('width', '24');
                 iconElement.setAttribute('viewBox', `0 0 ${value.width ? value.width : library.width} ${value.height ? value.height : library.height}`);
-                iconElement.dataset.value = library.prefix + key
                 iconElement.innerHTML = value.body;
-
-                if (library.chars) {
-                    iconElement.dataset.unicode = _.getKeyByValue(library.chars, key);
-                }
 
                 iconTarget.append(iconElement)
 
@@ -235,7 +236,7 @@ export default class IconPicker {
                         evt.currentTarget.classList.add('is-selected');
 
                         currentlySelectElement = evt.currentTarget;
-                        this.currentlySelectName = currentlySelectElement.firstChild.dataset.value;
+                        this.currentlySelectName = currentlySelectElement.dataset.value;
                         this.SVGString = iconElement.outerHTML;
 
                         this.emitValues = {
@@ -264,26 +265,22 @@ export default class IconPicker {
             }
         });
 
-        if (options.defaultValue) {
-            let defaultValueElement = document.querySelector(`[data-value=${options.defaultValue}]`);
-            let iconValue = options.defaultValue;
+        if (options.defaultValue || this.element.value) {
 
-            // Check if icon value or icon name
-            // @TODO: Une fois tout sur l'élémentTarget, revoir cette partie
-            if (defaultValueElement) {
-                defaultValueElement.parentElement.classList.add('is-selected');
+            // Check if icon name ou icon value is set
+            let defaultValueElement = document.querySelector(`[data-value=${options.defaultValue ? options.defaultValue : this.element.value}]`) ?
+                document.querySelector(`[data-value=${options.defaultValue ? options.defaultValue : this.element.value}]`) :
+                document.querySelector(`.${options.defaultValue ? options.defaultValue : this.element.value}`);
+            let iconValue = defaultValueElement.dataset.value;
 
-                previousSelectedIcon = defaultValueElement.parentElement;
-            } else {
-                defaultValueElement = document.querySelector(`.${options.defaultValue}`);
-                defaultValueElement.classList.add('is-selected');
+            defaultValueElement.classList.add('is-selected');
 
-                iconValue = defaultValueElement.firstChild.dataset.value
-                previousSelectedIcon = defaultValueElement;
-            }
-
+            previousSelectedIcon = defaultValueElement;
             this.currentlySelectName = iconValue;
-            this._setValueInput();
+
+            if (!this.element.value) {
+                this._setValueInput();
+            }
         }
     }
 
@@ -312,6 +309,20 @@ export default class IconPicker {
 
                 return iconLibrary;
             });
+    }
+
+    /**
+     *
+     * @param {string} exception
+     * @private
+     */
+    _catchError(exception) {
+        console.log('error', exception);
+        switch (exception) {
+            case 'iconSourceMissing':
+                throw Error('No icon source was found.');
+                break;
+        }
     }
 
     /**
