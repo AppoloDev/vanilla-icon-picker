@@ -3,9 +3,6 @@ export const collections = {
         key: 'mdi',
         prefix: 'mdi mdi-'
     },
-    'FontAwesome 5': {
-        key: ['fa-brands', 'fa-solid', 'fa-regular'],
-    },
     'FontAwesome Brands 5': {
         key: 'fa-brands',
         prefix: 'fab fa-'
@@ -27,13 +24,20 @@ export const collections = {
 
 /**
  *
- * @param {string} collection
+ * @param {array} collectionsOptions
  */
-export function resolveCollection(collection) {
-    if (hasCollection(collection)) {
-        return collections[collection]
+export function resolveCollection(collectionsOptions) {
+    let collectionResolved = Object.create({});
+
+    if (Array.isArray(collectionsOptions)) {
+        collectionsOptions.forEach((collection) => {
+            if (hasCollection(collection)) {
+                collectionResolved[collections[collection].key] = collections[collection]
+            }
+        })
     }
 
+    return collectionResolved;
 }
 
 /**
@@ -41,6 +45,6 @@ export function resolveCollection(collection) {
  * @param {string} collection
  * @returns {boolean}
  */
-export function hasCollection(collection) {
+function hasCollection(collection) {
     return collections.hasOwnProperty(collection)
 }

@@ -190,7 +190,7 @@ export default class IconPicker {
         }
 
         this.hide();
-        this._emit('save', {name: this.currentlySelectName, svg: this.SVGString});
+        this._emit('save', this.emitValues);
     }
 
     /**
@@ -232,25 +232,23 @@ export default class IconPicker {
                 // Icon click event
                 iconTarget.addEventListener('click', (evt) => {
                     if (this.currentlySelectName !== evt.currentTarget.firstChild.className) {
-                        let values = {}
                         evt.currentTarget.classList.add('is-selected');
 
                         currentlySelectElement = evt.currentTarget;
                         this.currentlySelectName = currentlySelectElement.firstChild.dataset.value;
                         this.SVGString = iconElement.outerHTML;
 
-                        values = {
+                        this.emitValues = {
                             name: key,
                             value: this.currentlySelectName,
                             svg: this.SVGString,
                         }
 
                         if (library.chars) {
-                            values = {...values, unicode: iconElement.dataset.unicode}
+                            this.emitValues.unicode = iconElement.dataset.unicode
                         }
 
-                        // TODO: select et save doivent renvoyer les mêmes données
-                        this._emit('select', values);
+                        this._emit('select', this.emitValues);
                     }
 
                     if (previousSelectedIcon) {
@@ -275,27 +273,19 @@ export default class IconPicker {
     async _getIcons() {
         const {options} = this
         const iconsURL = [];
-        let sourceInformation = {};
+
+        let sourceInformation = resolveCollection(options.iconSource);
 
         if (options.iconSource.length > 0) {
-            for (const source of options.iconSource) {
-                sourceInformation = resolveCollection(source);
-
-                console.log('sourceInformation', sourceInformation);
-
-                if (Array.isArray(sourceInformation.key)) {
-                    sourceInformation.key.forEach(key => iconsURL.push(`${iconifyPath}/${key}.json`))
-                } else {
-                    iconsURL.push(`${iconifyPath}/${sourceInformation.key}.json`)
-                }
+            for (const source of Object.values(sourceInformation)) {
+                iconsURL.push(`${iconifyPath}/${source.key}.json`)
             }
         }
 
         return await Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response.json())))
             .then((iconLibrary) => {
-                // TODO: Pas le bon prefix quand il y a plus de 2 library
                 iconLibrary.forEach((library) => {
-                    library.prefix = sourceInformation.prefix
+                    library.prefix = sourceInformation[library.prefix].prefix
                 })
 
                 return iconLibrary;
