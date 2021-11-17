@@ -28,7 +28,7 @@
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/plugin-proposal-class-properties": "^7.16.0",
-    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
     "mini-css-extract-plugin": "^2.4.4",
@@ -40,6 +40,6 @@
     "webpack-fix-style-only-entries": "^0.6.1"
   },
   "dependencies": {
-    "@iconify/json": "^1.1.428"
+    "@iconify/json": "^1.1.429"
   }
 }
