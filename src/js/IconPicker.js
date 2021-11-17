@@ -1,12 +1,15 @@
 import * as _ from "./utlis/utils";
 import template from "./template";
+import {resolveCollection} from "./utlis/collections";
 
-import ICON_SET from 'font-awesome-iconset';
+const iconifyPath = 'https://raw.githubusercontent.com/iconify/collections-json/master/json';
 
 export default class IconPicker {
     static DEFAULT_OPTIONS = {
         theme: 'default',
         closeOnSelect: true,
+        defaultValue: null,
+        iconSource: [],
         i18n: {
             'input:placeholder': 'Search icon…',
 
@@ -36,9 +39,9 @@ export default class IconPicker {
         // Initialize icon picker
         this._preBuild();
 
-        if (this.element) {
+        if (this.element && this.options.iconSource.length > 0) {
             this._binEvents();
-            this._buildIcons(ICON_SET);
+            this._renderdIcons();
             this._createModal();
         }
     }
@@ -46,10 +49,15 @@ export default class IconPicker {
     _preBuild() {
         this.element = _.resolveElement(this.element);
         this.root = template(this.options);
+
+        if (!Array.isArray(this.options.iconSource) && this.options.iconSource.length > 0) {
+            this.options.iconSource = [this.options.iconSource];
+        }
     }
 
     _binEvents() {
         const {options, root, element} = this;
+        let iconsElements = [];
 
         this._eventBindings = [
             _.addEvent(element, 'click', () => this.show()),
@@ -59,20 +67,35 @@ export default class IconPicker {
                     this.hide();
                 }
             }),
-            _.addEvent(root.search, 'keyup', (evt) => {
-                const iconResult = ICON_SET.filter((obj) =>
-                    JSON.stringify(obj).toLowerCase().includes(evt.target.value.toLowerCase())
-                );
+            _.addEvent(root.search, 'keyup', _.debounce((evt) => {
+                const iconsResult = this.availableIcons.filter((obj) => obj.value.includes(evt.target.value.toLowerCase()));
 
-                if (!iconResult.length) {
-                    root.content.innerHTML = `<div class="is-empty">${options.i18n['text:empty']}</div>`;
-                } else {
-                    const emptyElement = root.content.querySelector('.empty');
-                    if (emptyElement) emptyElement.remove();
-
-                    this._buildIcons(iconResult);
+                if (!iconsElements.length) {
+                    iconsElements = document.querySelectorAll('.icon-element');
                 }
-            })
+
+                iconsElements.forEach((iconElement) => {
+                    iconElement.hidden = true;
+
+                    iconsResult.forEach((result) => {
+                        if (iconElement.classList.contains(result.value)) {
+                            iconElement.hidden = false;
+                        }
+                    });
+                });
+
+                const emptyElement = root.content.querySelector('.is-empty');
+
+                if (iconsResult.length > 0) {
+                    if (emptyElement) {
+                        emptyElement.remove();
+                    }
+                } else {
+                    if (!emptyElement) {
+                        root.content.appendChild(_.stringToHTML(`<div class="is-empty">${options.i18n['text:empty']}</div>`));
+                    }
+                }
+            }, 250))
         ];
 
         if (!options.closeOnSelect) {
@@ -157,66 +180,153 @@ export default class IconPicker {
     }
 
     _createModal() {
-        const picker = this;
+        document.body.appendChild(this.root.modal);
 
-        document.body.appendChild(picker.root.modal);
-
-        picker.initialized = true;
+        this.initialized = true;
     }
 
     _onSave() {
-        const {element} = this;
-
-        if (element instanceof HTMLInputElement && this.currentlySelectName) {
-            element.value = this.currentlySelectName;
-        }
+        this._setValueInput()
 
         this.hide();
-        this._emit('save', this.currentlySelectName);
+        this._emit('save', this.emitValues);
     }
 
     /**
      * Generate icons elements
-     * @param icons
      * @private
      */
-    _buildIcons(icons) {
+    async _renderdIcons() {
         const {root, options} = this;
         let previousSelectedIcon = null;
+        let currentlySelectElement = null;
+        this.availableIcons = [];
 
         root.content.innerHTML = '';
 
-        icons.forEach((icon) => {
-            const iconTarget = document.createElement('button');
-            iconTarget.className = 'icon-element';
+        let icons = await this._getIcons();
 
-            const iconElement = document.createElement('i');
-            iconElement.className = icon.value;
+        icons.forEach((library) => {
+            for (const [key, value] of Object.entries(library.icons)) {
+                //@TODO: Mettre tout sur l'élément target
+                const iconTarget = document.createElement('button');
+                iconTarget.className = `icon-element ${key}`;
 
-            iconTarget.append(iconElement)
+                const iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                iconElement.setAttribute('height', '24');
+                iconElement.setAttribute('width', '24');
+                iconElement.setAttribute('viewBox', `0 0 ${value.width ? value.width : library.width} ${value.height ? value.height : library.height}`);
+                iconElement.dataset.value = library.prefix + key
+                iconElement.innerHTML = value.body;
 
-            root.content.appendChild(iconTarget);
-
-            iconTarget.addEventListener('click', (evt) => {
-                if (this.currentlySelectName !== evt.currentTarget.firstChild.className) {
-                    evt.currentTarget.classList.add('is-selected');
-
-                    this.currentlySelectElement = evt.currentTarget;
-                    this.currentlySelectName = this.currentlySelectElement.firstChild.className;
-
-                    this._emit('select', this.currentlySelectName);
+                if (library.chars) {
+                    iconElement.dataset.unicode = _.getKeyByValue(library.chars, key);
                 }
 
-                if (previousSelectedIcon) {
-                    previousSelectedIcon.classList.remove('is-selected');
-                }
+                iconTarget.append(iconElement)
 
-                if (options.closeOnSelect) {
-                    this._onSave();
-                }
+                root.content.appendChild(iconTarget);
 
-                previousSelectedIcon = this.currentlySelectElement;
-            });
+                this.availableIcons.push({value: key, body: iconElement.outerHTML});
+
+                // Icon click event
+                iconTarget.addEventListener('click', (evt) => {
+                    if (this.currentlySelectName !== evt.currentTarget.firstChild.className) {
+                        evt.currentTarget.classList.add('is-selected');
+
+                        currentlySelectElement = evt.currentTarget;
+                        this.currentlySelectName = currentlySelectElement.firstChild.dataset.value;
+                        this.SVGString = iconElement.outerHTML;
+
+                        this.emitValues = {
+                            name: key,
+                            value: this.currentlySelectName,
+                            svg: this.SVGString,
+                        }
+
+                        if (library.chars) {
+                            this.emitValues.unicode = iconElement.dataset.unicode
+                        }
+
+                        this._emit('select', this.emitValues);
+                    }
+
+                    if (previousSelectedIcon) {
+                        previousSelectedIcon.classList.remove('is-selected');
+                    }
+
+                    if (options.closeOnSelect) {
+                        this._onSave();
+                    }
+
+                    previousSelectedIcon = currentlySelectElement;
+                });
+            }
         });
+
+        if (options.defaultValue) {
+            let defaultValueElement = document.querySelector(`[data-value=${options.defaultValue}]`);
+            let iconValue = options.defaultValue;
+
+            // Check if icon value or icon name
+            // @TODO: Une fois tout sur l'élémentTarget, revoir cette partie
+            if (defaultValueElement) {
+                defaultValueElement.parentElement.classList.add('is-selected');
+
+                previousSelectedIcon = defaultValueElement.parentElement;
+            } else {
+                defaultValueElement = document.querySelector(`.${options.defaultValue}`);
+                defaultValueElement.classList.add('is-selected');
+
+                iconValue = defaultValueElement.firstChild.dataset.value
+                previousSelectedIcon = defaultValueElement;
+            }
+
+            this.currentlySelectName = iconValue;
+            this._setValueInput();
+        }
+    }
+
+    /**
+     *
+     * @returns {string}
+     * @private
+     */
+    async _getIcons() {
+        const {options} = this
+        const iconsURL = [];
+
+        let sourceInformation = resolveCollection(options.iconSource);
+
+        //const dataObject = JSON.parse(fs.readFileSync('data/file.json'));
+        //console.log('dataObject', dataObject);
+
+        if (options.iconSource.length > 0) {
+            for (const source of Object.values(sourceInformation)) {
+                iconsURL.push(`${iconifyPath}/${source.key}.json`)
+            }
+        }
+
+        return await Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response.json())))
+            .then((iconLibrary) => {
+                iconLibrary.forEach((library) => {
+                    library.prefix = sourceInformation[library.prefix].prefix
+                })
+
+                return iconLibrary;
+            });
+    }
+
+    /**
+     * Set value into input element
+     * @param value
+     * @private
+     */
+    _setValueInput(value = this.currentlySelectName) {
+        const {element} = this;
+
+        if (element instanceof HTMLInputElement && this.currentlySelectName) {
+            element.value = value;
+        }
     }
 }
