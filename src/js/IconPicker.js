@@ -266,10 +266,9 @@ export default class IconPicker {
         });
 
         if (options.defaultValue || this.element.value) {
-
             // Check if icon name ou icon value is set
-            let defaultValueElement = document.querySelector(`[data-value=${options.defaultValue ? options.defaultValue : this.element.value}]`) ?
-                document.querySelector(`[data-value=${options.defaultValue ? options.defaultValue : this.element.value}]`) :
+            let defaultValueElement = document.querySelector(`[data-value="${options.defaultValue ? options.defaultValue : this.element.value}"]`) ?
+                document.querySelector(`[data-value="${options.defaultValue ? options.defaultValue : this.element.value}"]`) :
                 document.querySelector(`.${options.defaultValue ? options.defaultValue : this.element.value}`);
             let iconValue = defaultValueElement.dataset.value;
 
