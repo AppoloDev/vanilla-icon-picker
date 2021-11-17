@@ -8,6 +8,7 @@ export default class IconPicker {
     static DEFAULT_OPTIONS = {
         theme: 'default',
         closeOnSelect: true,
+        defaultValue: null,
         iconSource: [],
         i18n: {
             'input:placeholder': 'Search icon…',
@@ -83,14 +84,16 @@ export default class IconPicker {
                     });
                 });
 
-                if (iconsResult.length) {
-                    const emptyElement = root.content.querySelector('.is-empty');
+                const emptyElement = root.content.querySelector('.is-empty');
 
+                if (iconsResult.length > 0) {
                     if (emptyElement) {
                         emptyElement.remove();
                     }
                 } else {
-                    root.content.appendChild(_.stringToHTML(`<div class="is-empty">${options.i18n['text:empty']}</div>`));
+                    if (!emptyElement) {
+                        root.content.appendChild(_.stringToHTML(`<div class="is-empty">${options.i18n['text:empty']}</div>`));
+                    }
                 }
             }, 250))
         ];
@@ -183,11 +186,7 @@ export default class IconPicker {
     }
 
     _onSave() {
-        const {element} = this;
-
-        if (element instanceof HTMLInputElement && this.currentlySelectName) {
-            element.value = this.currentlySelectName;
-        }
+        this._setValueInput()
 
         this.hide();
         this._emit('save', this.emitValues);
@@ -209,8 +208,9 @@ export default class IconPicker {
 
         icons.forEach((library) => {
             for (const [key, value] of Object.entries(library.icons)) {
+                //@TODO: Mettre tout sur l'élément target
                 const iconTarget = document.createElement('button');
-                iconTarget.className = 'icon-element';
+                iconTarget.className = `icon-element ${key}`;
 
                 const iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                 iconElement.setAttribute('height', '24');
@@ -263,6 +263,28 @@ export default class IconPicker {
                 });
             }
         });
+
+        if (options.defaultValue) {
+            let defaultValueElement = document.querySelector(`[data-value=${options.defaultValue}]`);
+            let iconValue = options.defaultValue;
+
+            // Check if icon value or icon name
+            // @TODO: Une fois tout sur l'élémentTarget, revoir cette partie
+            if (defaultValueElement) {
+                defaultValueElement.parentElement.classList.add('is-selected');
+
+                previousSelectedIcon = defaultValueElement.parentElement;
+            } else {
+                defaultValueElement = document.querySelector(`.${options.defaultValue}`);
+                defaultValueElement.classList.add('is-selected');
+
+                iconValue = defaultValueElement.firstChild.dataset.value
+                previousSelectedIcon = defaultValueElement;
+            }
+
+            this.currentlySelectName = iconValue;
+            this._setValueInput();
+        }
     }
 
     /**
@@ -290,5 +312,18 @@ export default class IconPicker {
 
                 return iconLibrary;
             });
+    }
+
+    /**
+     * Set value into input element
+     * @param value
+     * @private
+     */
+    _setValueInput(value = this.currentlySelectName) {
+        const {element} = this;
+
+        if (element instanceof HTMLInputElement && this.currentlySelectName) {
+            element.value = value;
+        }
     }
 }

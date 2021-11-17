@@ -1,7 +1,8 @@
 // Icon picker with `bootstrap-5` theme
 const iconPickerInput = new IconPicker('input', {
     theme: 'bootstrap-5',
-    iconSource: ['Iconoir', 'FontAwesome Brands 5'],
+    iconSource: ['Iconoir', 'FontAwesome Solid 5'],
+    defaultValue: 'iconoir-album-carousel',
     closeOnSelect: true
 });
 
