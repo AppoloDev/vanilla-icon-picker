@@ -17,7 +17,9 @@ declare class IconPicker {
 declare namespace IconPicker {
     interface Options {
         theme: Theme,
+        iconSource: IconSource | Array<IconSource>,
         closeOnSelect?: boolean,
+        defaultValue?: string,
         i18n?: {
             'input:placeholder'?: string,
             'text:title'?: string,
@@ -27,6 +29,8 @@ declare namespace IconPicker {
     }
 
     type Theme = 'default' | 'bootstrap-5';
+
+    type IconSource = 'FontAwesome Brands 5' | 'FontAwesome Solid 5' | 'FontAwesome Regular 5' | 'Material Design Icons' | 'Iconoir'
 
     type EventType = 'select' | 'save' | 'show' | 'hide';
 }

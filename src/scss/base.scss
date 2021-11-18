@@ -60,6 +60,8 @@
         }
 
         .icon-picker-modal--close {
+            cursor: pointer;
+
             margin-left: auto;
 
             -webkit-appearance: none;
@@ -75,8 +77,7 @@
 
     &__content {
         display: grid;
-        grid-template-columns: repeat($columns-number, 1fr);
-        grid-template-rows: max-content;
+        grid-template-columns: repeat($columns-number, 40px);
         grid-gap: $grid-gap;
 
         overflow-y: scroll;
@@ -124,6 +125,10 @@
                 i, svg {
                     color: $icon-element-color-selected;
                 }
+            }
+
+            &[hidden] {
+                display: none;
             }
         }
     }
