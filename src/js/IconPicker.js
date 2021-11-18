@@ -316,7 +316,6 @@ export default class IconPicker {
      * @private
      */
     _catchError(exception) {
-        console.log('error', exception);
         switch (exception) {
             case 'iconSourceMissing':
                 throw Error('No icon source was found.');
