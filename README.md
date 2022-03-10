@@ -46,13 +46,27 @@ const iconPicker = new IconPicker('input', {
 
 ## Options
 
+> 💙 You can find icons sets at [Iconify](https://github.com/iconify/icon-sets/tree/master/json)
+
+
 ```javascript
 {
     // Change icon picker's theme
     theme: 'default' | 'bootstrap-5',
 
     // Set icon(s) library(ies)
-    // 'FontAwesome Brands 5' | 'FontAwesome Solid 5' | 'FontAwesome Regular 5' | 'Material Design Icons' | 'Iconoir'
+    // iconSource: [
+    //     'FontAwesome Brands 5', 
+    //     'FontAwesome Solid 5', 
+    //     'FontAwesome Regular 5', 
+    //     'Material Design Icons', 
+    //     'Iconoir', 
+    //     {
+    //         key: 'academicons',
+    //         prefix: 'ai ai-',
+    //         url: 'https://raw.githubusercontent.com/iconify/icon-sets/master/json/academicons.json'
+    //     }
+    // ]
     iconSource: [],
 
     // Close icon picker modal when icon is selected
@@ -65,12 +79,13 @@ const iconPicker = new IconPicker('input', {
         
     // Translatable text
     i18n: {
-    'input:placeholder': 'Search icon…',
-
-    'text:title': 'Select icon',
-    'text:empty': 'No results found…',
-
-    'btn:save': 'Save'
+        'input:placeholder': 'Search icon…',
+            
+        'text:title': 'Select icon',
+        'text:empty': 'No results found…',
+            
+        'btn:save': 'Save'
+    }
 }
 ```
 

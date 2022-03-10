@@ -1,7 +1,15 @@
 // Icon picker with `bootstrap-5` theme
 const iconPickerInput = new IconPicker('input', {
     theme: 'bootstrap-5',
-    iconSource: ['Iconoir', 'FontAwesome Solid 5'],
+    iconSource: [
+        'Iconoir',
+        'FontAwesome Solid 5',
+        {
+            key: 'academicons',
+            prefix: 'ai ai-',
+            url: 'https://raw.githubusercontent.com/iconify/icon-sets/master/json/academicons.json'
+        }
+    ],
     closeOnSelect: true
 });
 
