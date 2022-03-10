@@ -2,8 +2,6 @@ import * as _ from "./utlis/utils";
 import template from "./template";
 import {resolveCollection} from "./utlis/collections";
 
-const iconifyPath = 'https://raw.githubusercontent.com/iconify/collections-json/master/json';
-
 export default class IconPicker {
     static DEFAULT_OPTIONS = {
         theme: 'default',
@@ -38,6 +36,8 @@ export default class IconPicker {
 
         // Initialize icon picker
         this._preBuild();
+
+        console.log(this.options.iconSource);
 
         if (this.element && this.options.iconSource.length > 0) {
             this._binEvents();
@@ -294,10 +294,8 @@ export default class IconPicker {
 
         let sourceInformation = resolveCollection(options.iconSource);
 
-        if (options.iconSource.length > 0) {
-            for (const source of Object.values(sourceInformation)) {
-                iconsURL.push(`${iconifyPath}/${source.key}.json`)
-            }
+        for (const source of Object.values(sourceInformation)) {
+            iconsURL.push(source.url)
         }
 
         return await Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response.json())))

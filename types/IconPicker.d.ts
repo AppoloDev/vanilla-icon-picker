@@ -17,7 +17,7 @@ declare class IconPicker {
 declare namespace IconPicker {
     interface Options {
         theme: Theme,
-        iconSource: IconSource | Array<IconSource>,
+        iconSource: Array<IconSource | {key: string, prefix: string, url: string}>,
         closeOnSelect?: boolean,
         defaultValue?: string,
         i18n?: {
