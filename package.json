@@ -26,18 +26,19 @@
     "url": "https://github.com/AppoloDev/vanilla-icon-picker/issues"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.17.8",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/preset-env": "^7.16.11",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.2.4",
     "css-loader": "^6.7.1",
     "mini-css-extract-plugin": "^2.6.0",
-    "sass": "^1.49.9",
+    "sass": "^1.49.10",
     "sass-loader": "^12.6.0",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
-    "webpack-fix-style-only-entries": "^0.6.1"
+    "webpack-fix-style-only-entries": "^0.6.1",
+    "webpack-remove-empty-scripts": "^0.7.3"
   },
   "dependencies": {}
 }

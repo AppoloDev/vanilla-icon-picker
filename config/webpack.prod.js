@@ -1,5 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const FixStyleOnlyEntriesPlugin = require('webpack-remove-empty-scripts');
 const {version} = require('../package.json');
 const util = require('util');
 const webpack = util.promisify(require('webpack'));
