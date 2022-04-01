@@ -37,8 +37,6 @@ export default class IconPicker {
         // Initialize icon picker
         this._preBuild();
 
-        console.log(this.options.iconSource);
-
         if (this.element && this.options.iconSource.length > 0) {
             this._binEvents();
             this._renderdIcons();
@@ -211,6 +209,7 @@ export default class IconPicker {
         icons.forEach((library) => {
             for (const [key, value] of Object.entries(library.icons)) {
                 const iconTarget = document.createElement('button');
+                iconTarget.title = key
                 iconTarget.className = `icon-element ${key}`;
                 iconTarget.dataset.value = library.prefix + key
 
