@@ -10,7 +10,7 @@ export default options => {
                     ${typeof i18n['text:title'] === 'string' && i18n['text:title'] !== '' ? `<h2>${i18n['text:title']}</h2>` : ''}
                     
                     <button class="icon-picker-modal--close" aria-label="Close" data-interaction="close">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke-width="1.5">
+                        <svg xmlns="https://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke-width="1.5">
                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M6.758 17.243 12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243"/>
                         </svg>
                     </button>
