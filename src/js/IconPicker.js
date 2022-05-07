@@ -217,7 +217,7 @@ export default class IconPicker {
                     iconTarget.dataset.unicode = _.getKeyByValue(library.chars, key);
                 }
 
-                const iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                const iconElement = document.createElementNS('https://www.w3.org/2000/svg', 'svg');
                 iconElement.setAttribute('height', '24');
                 iconElement.setAttribute('width', '24');
                 iconElement.setAttribute('viewBox', `0 0 ${value.width ? value.width : library.width} ${value.height ? value.height : library.height}`);
