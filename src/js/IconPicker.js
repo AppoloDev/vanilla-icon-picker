@@ -269,9 +269,9 @@ export default class IconPicker {
             let defaultValueElement = document.querySelector(`[data-value="${options.defaultValue ? options.defaultValue : this.element.value}"]`) ?
                 document.querySelector(`[data-value="${options.defaultValue ? options.defaultValue : this.element.value}"]`) :
                 document.querySelector(`.${options.defaultValue ? options.defaultValue : this.element.value}`);
-            let iconValue = defaultValueElement.dataset.value;
 
-            defaultValueElement.classList.add('is-selected');
+            let iconValue = defaultValueElement?.dataset.value ?? '';
+            defaultValueElement?.classList.add('is-selected');
 
             previousSelectedIcon = defaultValueElement;
             this.currentlySelectName = iconValue;
