@@ -3,6 +3,7 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/appolodev/icon-picker?color=blue&style=flat-square)
 ![npm](https://img.shields.io/npm/dm/vanilla-icon-picker?color=%2325b5ba&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/appolodev/icon-picker?style=flat-square)
+[![pages-build-deployment](https://github.com/AppoloDev/vanilla-icon-picker/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/AppoloDev/vanilla-icon-picker/actions/workflows/pages/pages-build-deployment)
 
 ### Icons includes:
 
@@ -32,7 +33,7 @@ import 'vanilla-icon-picker/dist/themes/bootstrap-5.min.css'; // 'bootstrap-5' t
 import IconPicker from 'vanilla-icon-picker';
 ```
 
-> ⚠️ Attention: If you use bootstrap theme dont forget to include bootstrap 5 css.
+> ⚠️ Attention: If you use bootstrap theme don't forget to include bootstrap 5 css.
 
 ## Usage
 
@@ -93,12 +94,13 @@ const iconPicker = new IconPicker('input', {
 
 Use the `on(event, callback)` and `off(event, callback)` functions to bind / unbind eventlistener.
 
-| Event          | Description                           | Arguments            |
-| -------------- | -----------                           | ---------            |
-| `select`       | Icon is selected, return icon value, name, svg and unicode if exist    | `Object`             |
-| `save`         | Fired when saved with button or if `closeOnSelect` option is `true`, return return icon value, name, svg and unicode if exist | `Object`             |
-| `show`         | Modal is shown                        | `IconPickerInstance` |
-| `hide`         | Modal picker is hidden                | `IconPickerInstance` |
+| Event    | Description                                                                                                                   | Arguments            |
+|----------|-------------------------------------------------------------------------------------------------------------------------------|----------------------|
+| `select` | Icon is selected, return icon value, name, svg and unicode if exist                                                           | `Object`             |
+| `save`   | Fired when saved with button or if `closeOnSelect` option is `true`, return return icon value, name, svg and unicode if exist | `Object`             |
+| `clear`  | `clear()` method is called                                                                                                    | `void`               |
+| `show`   | Modal is shown                                                                                                                | `IconPickerInstance` |
+| `hide`   | Modal picker is hidden                                                                                                        | `IconPickerInstance` |
 
 ```javascript
 iconPicker.on('select', instance => {
@@ -110,13 +112,14 @@ iconPicker.on('select', instance => {
 
 After we initialize IconPicker, we have access instance. Let's look list all available methods:
 
-| Method                    | Description               |
-| ------------------------- | ------------------------- |
-| `on()`                    | Add event handler         |
-| `off()`                   | Remove event handler      |
-| `open()`                  | Open IconPicker's modal   |
-| `hide()`                  | Remove IconPicker's modal |
-| `isOpen()`                | Check if open or not      |
+| Method                    | Description                                                                  |
+|---------------------------|------------------------------------------------------------------------------|
+| `on()`                    | Add event handler                                                            |
+| `off()`                   | Remove event handler                                                         |
+| `open()`                  | Open IconPicker's modal                                                      |
+| `hide()`                  | Remove IconPicker's modal                                                    |
+| `clear()`                 | Clear current icon                                                           |
+| `isOpen()`                | Check if open or not                                                         |
 | `destroy(deleteInstance)` | Set it to false (by default it is true) to not to delete IconPicker instance |
 
 
