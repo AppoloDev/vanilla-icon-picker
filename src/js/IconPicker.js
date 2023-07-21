@@ -23,7 +23,7 @@ export default class IconPicker {
         save: [],
         show: [],
         clear: [],
-        hide: [],
+        hide: []
     };
 
     /**
@@ -216,6 +216,7 @@ export default class IconPicker {
         let icons = await this._getIcons();
 
         icons.forEach((library) => {
+            let iconFormat = library.iconFormat ? library.iconFormat : 'svg';
             for (const [key, value] of Object.entries(library.icons)) {
                 const iconTarget = document.createElement('button');
                 iconTarget.title = key
@@ -226,11 +227,23 @@ export default class IconPicker {
                     iconTarget.dataset.unicode = _.getKeyByValue(library.chars, key);
                 }
 
-                const iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                iconElement.setAttribute('height', '24');
-                iconElement.setAttribute('width', '24');
-                iconElement.setAttribute('viewBox', `0 0 ${value.width ? value.width : library.width} ${value.height ? value.height : library.height}`);
-                iconElement.innerHTML = value.body;
+                let iconElement;
+                if (iconFormat === 'i' || !value.body) {
+                    iconElement = document.createElement('i');
+                    iconElement.setAttribute('class', iconTarget.dataset.value);
+                }
+                else if (iconFormat === 'markup') {
+                    let t = document.createElement('template');
+                    t.innerHTML = value.body;
+                    iconElement = t.content;
+                }
+                else {
+                    iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    iconElement.setAttribute('height', '24');
+                    iconElement.setAttribute('width', '24');
+                    iconElement.setAttribute('viewBox', `0 0 ${value.width ? value.width : library.width} ${value.height ? value.height : library.height}`);
+                    iconElement.innerHTML = value.body;
+                }
 
                 iconTarget.append(iconElement)
 

@@ -122,6 +122,62 @@ After we initialize IconPicker, we have access instance. Let's look list all ava
 | `isOpen()`                | Check if open or not                                                         |
 | `destroy(deleteInstance)` | Set it to false (by default it is true) to not to delete IconPicker instance |
 
+## Icon format setting in JSON files
+
+While this picker uses icon sets found at [Iconify](https://github.com/iconify/icon-sets/tree/master/json), it supports
+an extension to their format to allow improved performance with large icon sets.
+
+By default, those icon sets include the actual SVG directly, and the picker includes the SVG markup inline. In cases
+where the actual SVGs are not needed (e.g. if you're using Font Awesome and the required CSS / JavaScript is
+included on the page), adding a new, optional `iconFormat` setting to the JSON file will allow you to remove the SVGs
+and reduce file sizes by over 90%, making the loading of the picker much faster.
+
+`iconFormat` is optional and can be set to three different values:
+
+- `svg` (the default) - `body` must include the full SVG.
+
+- `i` - `body` is not needed at all. The picker will use markup like `<i class='far fa-abacus'></i>`.
+
+Example JSON (snipped, `iconFormat` can be set to "i", `body` can be empty or missing entirely)
+```json
+{
+  "prefix": "far fa-",
+  "iconFormat": "i",
+  "info": {
+    "name": "Font Awesome Regular"
+  },
+  "lastModified": 1689174287,
+  "icons": {
+    "abacus": {
+      "body": "",
+      "width": 576
+    },
+    "acorn": {
+      "width": 448
+    },
+```
+
+- `markup` - The picker uses the actual markup set in the `body`. This allows the use of different, custom markup for
+icons, e.g. `<span class='far fa-abacus'></span>`.
+
+Example JSON (snipped, `iconFormat` must be set to "markup", `body` must be set)
+```json
+{
+  "prefix": "far fa-",
+  "iconFormat": "markup",
+  "info": {
+    "name": "Font Awesome Regular"
+  },
+  "lastModified": 1689174287,
+  "icons": {
+    "abacus": {
+      "body": "<span class='far fa-abacus'></span>",
+      "width": 576
+    },
+```
+
+To take advantage of this, you could download the JSON file and use search-and-replace to remove the body values from
+the file. Then, you would need to set `iconSource` per the Options section above to use your new JSON file.
 
 ## Licence
 
