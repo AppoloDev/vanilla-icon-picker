@@ -22,6 +22,7 @@ export default class IconPicker {
         select: [],
         save: [],
         show: [],
+        clear: [],
         hide: []
     };
 
@@ -129,6 +130,14 @@ export default class IconPicker {
         }
 
         return false
+    }
+
+    clear() {
+        if (this.initialized && this.currentlySelectName) {
+            this.currentlySelectName = null;
+
+            this._emit('clear');
+        }
     }
 
     /**
