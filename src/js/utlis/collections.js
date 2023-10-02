@@ -6,21 +6,21 @@ export const collections = {
         prefix: 'mdi mdi-',
         url: `${iconifyPath}/mdi.json`
     },
-    'FontAwesome Brands 5': {
-        key: 'fa-brands',
+    'FontAwesome Brands 6': {
+        key: 'fa6-brands',
         prefix: 'fab fa-',
-        url: `${iconifyPath}/fa-brands.json`
+        url: `${iconifyPath}/fa6-brands.json`
     },
-    'FontAwesome Solid 5': {
-        key: 'fa-solid',
+    'FontAwesome Solid 6': {
+        key: 'fa6-solid',
         prefix: 'fas fa-',
-        url: `${iconifyPath}/fa-solid.json`
+        url: `${iconifyPath}/fa6-solid.json`
 
     },
-    'FontAwesome Regular 5': {
-        key: 'fa-regular',
+    'FontAwesome Regular 6': {
+        key: 'fa6-regular',
         prefix: 'far fa-',
-        url: `${iconifyPath}/fa-regular.json`
+        url: `${iconifyPath}/fa6-regular.json`
     },
     'Iconoir': {
         key: 'iconoir',
@@ -36,11 +36,13 @@ export const collections = {
 export function resolveCollection(collectionsOptions) {
     let collectionResolved = Object.create({});
 
+    console.log(collectionsOptions);
+
     if (Array.isArray(collectionsOptions)) {
         collectionsOptions.forEach((collection) => {
             if (hasCollection(collection)) {
                 collectionResolved[collections[collection].key] = collections[collection]
-            } else {
+            } else if (collection.key) {
                 collectionResolved[collection.key] = collection
             }
         })

@@ -1,6 +1,6 @@
 import * as _ from "./utlis/utils";
 import template from "./template";
-import {resolveCollection} from "./utlis/collections";
+import { resolveCollection } from "./utlis/collections";
 
 export default class IconPicker {
     static DEFAULT_OPTIONS = {
@@ -231,13 +231,11 @@ export default class IconPicker {
                 if (iconFormat === 'i' || !value.body) {
                     iconElement = document.createElement('i');
                     iconElement.setAttribute('class', iconTarget.dataset.value);
-                }
-                else if (iconFormat === 'markup') {
+                } else if (iconFormat === 'markup') {
                     let t = document.createElement('template');
                     t.innerHTML = value.body;
                     iconElement = t.content;
-                }
-                else {
+                } else {
                     iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     iconElement.setAttribute('height', '24');
                     iconElement.setAttribute('width', '24');
@@ -321,8 +319,12 @@ export default class IconPicker {
 
         return await Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response.json())))
             .then((iconLibrary) => {
+                console.log('iconLibrary', iconLibrary);
+                console.log(sourceInformation);
                 iconLibrary.forEach((library) => {
-                    library.prefix = sourceInformation[library.prefix].prefix
+                    if (sourceInformation.hasOwnProperty(library.prefix)) {
+                        library.prefix = sourceInformation[library.prefix].prefix
+                    }
                 })
 
                 return iconLibrary;
