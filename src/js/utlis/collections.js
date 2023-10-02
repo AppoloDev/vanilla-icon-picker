@@ -36,8 +36,6 @@ export const collections = {
 export function resolveCollection(collectionsOptions) {
     let collectionResolved = Object.create({});
 
-    console.log(collectionsOptions);
-
     if (Array.isArray(collectionsOptions)) {
         collectionsOptions.forEach((collection) => {
             if (hasCollection(collection)) {
