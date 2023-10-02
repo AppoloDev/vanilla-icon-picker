@@ -319,8 +319,6 @@ export default class IconPicker {
 
         return await Promise.all(iconsURL.map((iconURL) => fetch(iconURL).then((response) => response.json())))
             .then((iconLibrary) => {
-                console.log('iconLibrary', iconLibrary);
-                console.log(sourceInformation);
                 iconLibrary.forEach((library) => {
                     if (sourceInformation.hasOwnProperty(library.prefix)) {
                         library.prefix = sourceInformation[library.prefix].prefix
