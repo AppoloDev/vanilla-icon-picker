@@ -7,7 +7,7 @@
 
 ### Icons includes:
 
-- FontAwesome 5 (Brands, Solid and Regular)
+- FontAwesome 6 (Brands, Solid and Regular)
 - Material Design Icons
 - Iconoir
 
@@ -57,9 +57,9 @@ const iconPicker = new IconPicker('input', {
 
     // Set icon(s) library(ies)
     // iconSource: [
-    //     'FontAwesome Brands 5', 
-    //     'FontAwesome Solid 5', 
-    //     'FontAwesome Regular 5', 
+    //     'FontAwesome Brands 6', 
+    //     'FontAwesome Solid 6', 
+    //     'FontAwesome Regular 6', 
     //     'Material Design Icons', 
     //     'Iconoir', 
     //     {
@@ -154,7 +154,9 @@ Example JSON (snipped, `iconFormat` can be set to "i", `body` can be empty or mi
     },
     "acorn": {
       "width": 448
-    },
+    }
+  }
+}
 ```
 
 - `markup` - The picker uses the actual markup set in the `body`. This allows the use of different, custom markup for
@@ -173,7 +175,9 @@ Example JSON (snipped, `iconFormat` must be set to "markup", `body` must be set)
     "abacus": {
       "body": "<span class='far fa-abacus'></span>",
       "width": 576
-    },
+    }
+  }
+}
 ```
 
 To take advantage of this, you could download the JSON file and use search-and-replace to remove the body values from
