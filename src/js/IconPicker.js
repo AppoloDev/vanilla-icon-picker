@@ -69,7 +69,9 @@ export default class IconPicker {
                 }
             }),
             _.addEvent(root.search, 'keyup', _.debounce((evt) => {
-                const iconsResult = this.availableIcons.filter((obj) => obj.value.includes(evt.target.value.toLowerCase()));
+                const iconsResult = this.availableIcons.filter((obj) => {
+                    return obj.value.includes(evt.target.value.toLowerCase()) || obj.categories?.filter(c => c.includes(evt.target.value.toLowerCase())).length > 0
+                });
 
                 if (!iconsElements.length) {
                     iconsElements = document.querySelectorAll('.icon-element');
@@ -209,6 +211,7 @@ export default class IconPicker {
         const {root, options} = this;
         let previousSelectedIcon = null;
         let currentlySelectElement = null;
+        let categories = null;
         this.availableIcons = [];
 
         root.content.innerHTML = '';
@@ -217,11 +220,26 @@ export default class IconPicker {
 
         icons.forEach((library) => {
             let iconFormat = library.iconFormat ? library.iconFormat : 'svg';
+
             for (const [key, value] of Object.entries(library.icons)) {
                 const iconTarget = document.createElement('button');
                 iconTarget.title = key
                 iconTarget.className = `icon-element ${key}`;
-                iconTarget.dataset.value = library.prefix + key
+                iconTarget.dataset.value = library.prefix + key;
+
+                if (library.categories && Object.entries(library.categories).length > 0) {
+                    categories = [];
+
+                    for (const [categoryKey] of Object.entries(library.categories)) {
+                        if (library.categories[categoryKey].includes(key)) {
+                            if (categories.length > 0) {
+                                categories.push(categoryKey.toLowerCase())
+                            } else {
+                                categories = [categoryKey.toLowerCase()]
+                            }
+                        }
+                    }
+                }
 
                 if (library.chars) {
                     iconTarget.dataset.unicode = _.getKeyByValue(library.chars, key);
@@ -247,7 +265,7 @@ export default class IconPicker {
 
                 root.content.appendChild(iconTarget);
 
-                this.availableIcons.push({value: key, body: iconElement.outerHTML});
+                this.availableIcons.push({value: key, body: iconElement.outerHTML, ...(categories.length > 0 && {categories})});
 
                 // Icon click event
                 iconTarget.addEventListener('click', (evt) => {
@@ -323,7 +341,7 @@ export default class IconPicker {
                     if (sourceInformation.hasOwnProperty(library.prefix)) {
                         library.prefix = sourceInformation[library.prefix].prefix
                     }
-                })
+                });
 
                 return iconLibrary;
             });
@@ -338,7 +356,6 @@ export default class IconPicker {
         switch (exception) {
             case 'iconSourceMissing':
                 throw Error('No icon source was found.');
-                break;
         }
     }
 
