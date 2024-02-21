@@ -1,4 +1,4 @@
-const iconifyPath = 'https://raw.githubusercontent.com/iconify/collections-json/master/json';
+const iconifyPath = 'https://raw.githubusercontent.com/iconify/icon-sets/master/json';
 
 export const collections = {
     'Material Design Icons': {
