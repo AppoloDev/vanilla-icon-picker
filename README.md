@@ -11,20 +11,13 @@
 - Material Design Icons
 - Iconoir
 
-## Getting started
+## Installation
 
-### Node
-
-Install via npm or yarn
+➡️ Using a package manager
 
 ```bash
-// NPM
 npm i vanilla-icon-picker
-
-// YARN
-yarn add vanilla-icon-picker
 ```
-
 ```js
 // One of the following themes
 import 'vanilla-icon-picker/dist/themes/default.min.css'; // 'default' theme
@@ -34,6 +27,17 @@ import IconPicker from 'vanilla-icon-picker';
 ```
 
 > ⚠️ Attention: If you use bootstrap theme don't forget to include bootstrap 5 css.
+
+➡️ Using script
+```html
+<script src="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.0/dist/icon-picker.min.js"></script>
+```
+
+and stylesheet
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.0/dist/themes/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.0/dist/themes/bootstrap-5.min.css">
+```
 
 ## Usage
 
