@@ -30,13 +30,13 @@ import IconPicker from 'vanilla-icon-picker';
 
 ➡️ Using script
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.0/dist/icon-picker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.1/dist/icon-picker.min.js"></script>
 ```
 
 and stylesheet
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.0/dist/themes/default.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.0/dist/themes/bootstrap-5.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.1/dist/themes/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-icon-picker@1.3.1/dist/themes/bootstrap-5.min.css">
 ```
 
 ## Usage
