@@ -265,7 +265,7 @@ export default class IconPicker {
 
                 root.content.appendChild(iconTarget);
 
-                this.availableIcons.push({value: key, body: iconElement.outerHTML, ...(categories.length > 0 && {categories})});
+                this.availableIcons.push({value: key, body: iconElement.outerHTML, ...(categories?.length > 0 && {categories})});
 
                 // Icon click event
                 iconTarget.addEventListener('click', (evt) => {
