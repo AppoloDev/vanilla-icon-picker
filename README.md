@@ -124,6 +124,7 @@ After we initialize IconPicker, we have access instance. Let's look list all ava
 | `hide()`                  | Remove IconPicker's modal                                                    |
 | `clear()`                 | Clear current icon                                                           |
 | `isOpen()`                | Check if open or not                                                         |
+| `iconsLoaded()`           | Check if the icons are loaded                                                |
 | `destroy(deleteInstance)` | Set it to false (by default it is true) to not to delete IconPicker instance |
 
 ## Icon format setting in JSON files

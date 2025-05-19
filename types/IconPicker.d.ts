@@ -11,6 +11,8 @@ declare class IconPicker {
 
     isOpen(): boolean;
 
+    iconsLoaded(): boolean;
+
     detroy(deleteInstance?: boolean): void;
 }
 

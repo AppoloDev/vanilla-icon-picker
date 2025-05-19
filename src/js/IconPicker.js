@@ -3,6 +3,7 @@ import template from "./template";
 import { resolveCollection } from "./utlis/collections";
 
 export default class IconPicker {
+    loadingState = true; // Tracks whether icons are still loading
     static DEFAULT_OPTIONS = {
         theme: 'default',
         closeOnSelect: true,
@@ -151,6 +152,14 @@ export default class IconPicker {
     }
 
     /**
+     * Check if the icons are loaded
+     * @returns {boolean}
+     */
+    iconsLoaded(){
+        return !this.loadingState;
+    }
+
+    /**
      * Destroy icon picker instance and detach all events listeners
      * @param {boolean} deleteInstance
      */
@@ -208,6 +217,7 @@ export default class IconPicker {
      * @private
      */
     async _renderdIcons() {
+        this.loadingState = true; // Set loading state to true at the start
         const {root, options} = this;
         let previousSelectedIcon = null;
         let currentlySelectElement = null;
@@ -299,6 +309,8 @@ export default class IconPicker {
 
                     previousSelectedIcon = currentlySelectElement;
                 });
+                this.loadingState = false; // Set loading state to false when icons are fully loaded
+                this._emit('iconsLoaded'); // Emit an event to notify that icons are loaded
             }
         });
 
