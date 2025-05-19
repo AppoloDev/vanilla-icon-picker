@@ -217,7 +217,9 @@ export default class IconPicker {
      * @private
      */
     async _renderdIcons() {
-        this.loadingState = true; // Set loading state to true at the start
+        this.loadingState = true;
+        const loadingMessage = _.stringToHTML(`<div class="is-loading">${options.i18n['text:loading'] || 'Loading icons...'}</div>`);
+        root.content.appendChild(loadingMessage); // Add loading message
         const {root, options} = this;
         let previousSelectedIcon = null;
         let currentlySelectElement = null;
@@ -309,6 +311,10 @@ export default class IconPicker {
 
                     previousSelectedIcon = currentlySelectElement;
                 });
+                const loadingElement = root.content.querySelector('.is-loading');
+                if (loadingElement) {
+                    loadingElement.remove(); // Remove loading message
+                }
                 this.loadingState = false; // Set loading state to false when icons are fully loaded
                 this._emit('iconsLoaded'); // Emit an event to notify that icons are loaded
             }
