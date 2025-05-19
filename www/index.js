@@ -26,3 +26,13 @@ iconPickerInput.on('select', (icon) => {
 });
 
 // Icon picker with `default` theme
+const iconPickerButton = new IconPicker('.btn', {
+    theme: 'default',
+    iconSource: ['FontAwesome Brands 6', 'FontAwesome Solid 6', 'FontAwesome Regular 6'],
+    closeOnSelect: true
+});
+
+const iconElementButton = document.querySelector('.icon-selected-text');
+iconPickerButton.on('select', (icon) => {
+    iconElementButton.innerHTML = `Icon selected – name: <b>${icon.name}</b> & value: <b>${icon.value}</b>`;
+});

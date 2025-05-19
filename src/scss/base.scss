@@ -90,7 +90,7 @@
 
         overflow-y: scroll;
 
-        .is-empty {
+        .is-empty, .is-loading {
             text-align: center;
             grid-column: 1 / -1;
         }

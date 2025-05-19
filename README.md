@@ -102,6 +102,7 @@ Use the `on(event, callback)` and `off(event, callback)` functions to bind / unb
 |----------|-------------------------------------------------------------------------------------------------------------------------------|----------------------|
 | `select` | Icon is selected, return icon value, name, svg and unicode if exist                                                           | `Object`             |
 | `save`   | Fired when saved with button or if `closeOnSelect` option is `true`, return return icon value, name, svg and unicode if exist | `Object`             |
+| `loaded` | All icons are loaded                                                                                                          | `void`               |
 | `clear`  | `clear()` method is called                                                                                                    | `void`               |
 | `show`   | Modal is shown                                                                                                                | `IconPickerInstance` |
 | `hide`   | Modal picker is hidden                                                                                                        | `IconPickerInstance` |

@@ -3,7 +3,6 @@ import template from "./template";
 import { resolveCollection } from "./utlis/collections";
 
 export default class IconPicker {
-    loadingState = true; // Tracks whether icons are still loading
     static DEFAULT_OPTIONS = {
         theme: 'default',
         closeOnSelect: true,
@@ -14,6 +13,7 @@ export default class IconPicker {
 
             'text:title': 'Select icon',
             'text:empty': 'No results found…',
+            'text:loading' : 'Loading…',
 
             'btn:save': 'Save'
         }
@@ -24,7 +24,8 @@ export default class IconPicker {
         save: [],
         show: [],
         clear: [],
-        hide: []
+        hide: [],
+        loaded: []
     };
 
     /**
@@ -35,6 +36,7 @@ export default class IconPicker {
     constructor(el, options = {}) {
         this.options = _.mergeDeep(IconPicker.DEFAULT_OPTIONS, options);
         this.element = el;
+        this.iconsLoading = true;
 
         // Initialize icon picker
         this._preBuild();
@@ -217,16 +219,13 @@ export default class IconPicker {
      * @private
      */
     async _renderdIcons() {
-        this.loadingState = true;
-        const loadingMessage = _.stringToHTML(`<div class="is-loading">${options.i18n['text:loading'] || 'Loading icons...'}</div>`);
-        root.content.appendChild(loadingMessage); // Add loading message
         const {root, options} = this;
         let previousSelectedIcon = null;
         let currentlySelectElement = null;
         let categories = null;
         this.availableIcons = [];
 
-        root.content.innerHTML = '';
+        root.content.innerHTML = `<div class="is-loading">${options.i18n['text:loading']}</div>`;
 
         let icons = await this._getIcons();
 
@@ -311,12 +310,6 @@ export default class IconPicker {
 
                     previousSelectedIcon = currentlySelectElement;
                 });
-                const loadingElement = root.content.querySelector('.is-loading');
-                if (loadingElement) {
-                    loadingElement.remove(); // Remove loading message
-                }
-                this.loadingState = false; // Set loading state to false when icons are fully loaded
-                this._emit('iconsLoaded'); // Emit an event to notify that icons are loaded
             }
         });
 
@@ -336,6 +329,14 @@ export default class IconPicker {
                 this._setValueInput();
             }
         }
+
+        const loadingElement = root.content.querySelector('.is-loading');
+        if (loadingElement) {
+            loadingElement.remove();
+        }
+
+        this.iconsLoading = false;
+        this._emit('loaded');
     }
 
     /**
