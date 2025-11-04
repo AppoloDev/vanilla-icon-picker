@@ -3,7 +3,7 @@ const iconPickerInput = new IconPicker('input', {
     theme: 'bootstrap-5',
     iconSource: [
         'Iconoir',
-        'FontAwesome Solid 6',
+        'FontAwesome Solid 7',
         {
             key: 'gg',
             prefix: 'gg-',
@@ -28,7 +28,7 @@ iconPickerInput.on('select', (icon) => {
 // Icon picker with `default` theme
 const iconPickerButton = new IconPicker('.btn', {
     theme: 'default',
-    iconSource: ['FontAwesome Brands 6', 'FontAwesome Solid 6', 'FontAwesome Regular 6'],
+    iconSource: ['FontAwesome Brands 7', 'FontAwesome Solid 7', 'FontAwesome Regular 7'],
     closeOnSelect: true
 });
 

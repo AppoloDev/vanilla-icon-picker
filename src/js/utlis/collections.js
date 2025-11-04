@@ -22,6 +22,22 @@ export const collections = {
         prefix: 'far fa-',
         url: `${iconifyPath}/fa6-regular.json`
     },
+    'FontAwesome Brands 7': {
+        key: 'fa7-brands',
+        prefix: 'fab fa-',
+        url: `${iconifyPath}/fa7-brands.json`
+    },
+    'FontAwesome Solid 7': {
+        key: 'fa7-solid',
+        prefix: 'fas fa-',
+        url: `${iconifyPath}/fa7-solid.json`
+
+    },
+    'FontAwesome Regular 7': {
+        key: 'fa7-regular',
+        prefix: 'far fa-',
+        url: `${iconifyPath}/fa7-regular.json`
+    },
     'Iconoir': {
         key: 'iconoir',
         prefix: 'iconoir-',
