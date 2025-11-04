@@ -7,7 +7,7 @@
 
 ### Icons includes:
 
-- FontAwesome 6 (Brands, Solid and Regular)
+- FontAwesome 6&7 (Brands, Solid and Regular)
 - Material Design Icons
 - Iconoir
 
@@ -61,9 +61,9 @@ const iconPicker = new IconPicker('input', {
 
     // Set icon(s) library(ies)
     // iconSource: [
-    //     'FontAwesome Brands 6', 
-    //     'FontAwesome Solid 6', 
-    //     'FontAwesome Regular 6', 
+    //     'FontAwesome Brands 7', 
+    //     'FontAwesome Solid 7', 
+    //     'FontAwesome Regular 7', 
     //     'Material Design Icons', 
     //     'Iconoir', 
     //     {
